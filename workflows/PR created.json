@@ -56,6 +56,33 @@
       "main": [
         [
           {
+            "node": "Jira Software",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move to InReview": {
+      "main": [
+        []
+      ]
+    },
+    "Jira Software": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
             "node": "Move to InReview",
             "type": "main",
             "index": 0
@@ -245,6 +272,54 @@
       "type": "n8n-nodes-base.jira",
       "typeVersion": 1,
       "position": [
+        1080,
+        340
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "1",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Status.name }}",
+              "operation": "notEqual",
+              "value2": "Done"
+            },
+            {
+              "value1": "={{ $json.Status.name }} ",
+              "operation": "notEqual",
+              "value2": "IN REVIEW"
+            }
+          ]
+        }
+      },
+      "id": "2fea70be-24e0-4b8b-9a75-fb3bfbf6b26d",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        880,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "={{ $('Extract Key').item.json.key }}",
+        "simplifyOutput": true,
+        "additionalFields": {}
+      },
+      "id": "c3527ead-8316-4fcd-9ab9-d977f3283120",
+      "name": "Jira Software",
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
         680,
         460
       ],
@@ -385,6 +460,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-26T03:33:13.000Z",
-  "versionId": "618bf985-4e6d-47e8-abe9-732f34c2dddd"
+  "updatedAt": "2023-06-27T07:34:27.000Z",
+  "versionId": "63920c8a-e935-4b02-b72a-63b1f06a0d6d"
 }
