@@ -63,11 +63,6 @@
         ]
       ]
     },
-    "Move to InReview": {
-      "main": [
-        []
-      ]
-    },
     "Jira Software": {
       "main": [
         [
@@ -295,6 +290,11 @@
               "value1": "={{ $json.Status.name }} ",
               "operation": "notEqual",
               "value2": "IN REVIEW"
+            },
+            {
+              "value1": "{{ $json.Status.name }} ",
+              "operation": "notEqual",
+              "value2": "QA Open"
             }
           ]
         }
@@ -460,6 +460,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-27T07:34:27.000Z",
-  "versionId": "63920c8a-e935-4b02-b72a-63b1f06a0d6d"
+  "updatedAt": "2023-06-28T08:22:18.000Z",
+  "versionId": "aa0db38b-7a17-49f5-be08-cbc5709e5964"
 }
