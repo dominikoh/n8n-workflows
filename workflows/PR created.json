@@ -292,7 +292,7 @@
               "value2": "IN REVIEW"
             },
             {
-              "value1": "{{ $json.Status.name }} ",
+              "value1": "={{ $json.Status.name }} ",
               "operation": "notEqual",
               "value2": "QA Open"
             }
@@ -460,6 +460,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-28T08:22:18.000Z",
-  "versionId": "aa0db38b-7a17-49f5-be08-cbc5709e5964"
+  "updatedAt": "2023-07-03T00:59:04.000Z",
+  "versionId": "c8c59c51-ac22-46b9-a992-dc494ca7bc3f"
 }
