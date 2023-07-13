@@ -1,0 +1,946 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Extract Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Key": {
+      "main": [
+        [
+          {
+            "node": "Jira Software",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jira Software": {
+      "main": [
+        [
+          {
+            "node": "filter ticket status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "filter ticket status": {
+      "main": [
+        [
+          {
+            "node": "Move to Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-13T07:59:47.182Z",
+  "id": "3",
+  "name": "PR completed",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "789c3223-3336-4af3-9582-5232656f0062",
+        "options": {}
+      },
+      "id": "076689ad-e202-422f-851d-38e335d9b99a",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        560
+      ],
+      "webhookId": "7625bfc2-3388-4902-a60f-4b23d75f95fe"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "url",
+              "value": "={{ $json.body.resource._links.web.href }}"
+            },
+            {
+              "name": "title",
+              "value": "={{ $json.body.resource.title }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "558d2de5-68e8-4a31-aacb-ab8356ca2380",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract key from title. ex) \"TSLA-1234 new pull request\" -> \"TSLA-1234\"\nvar title = $input.item.json.title;\nvar key = title.split(' ')[0];\n$input.item.json.key = key;\n\nreturn $input.item;"
+      },
+      "id": "ab3ca31f-240f-415b-ba29-de9bf32f0f1d",
+      "name": "Extract Key",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        40,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "={{ $('Extract Key').item.json.key }}",
+        "simplifyOutput": true,
+        "additionalFields": {}
+      },
+      "id": "8f9902bb-f727-4f15-a028-a767bb56e276",
+      "name": "Jira Software",
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        240,
+        560
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "1",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Status.name }}",
+              "operation": "notEqual",
+              "value2": "Done"
+            },
+            {
+              "value1": "={{ $json.Status.name }} ",
+              "operation": "notEqual",
+              "value2": "QA Open"
+            }
+          ]
+        }
+      },
+      "id": "fc9aa2ca-9d98-42ad-a40c-399161a134b6",
+      "name": "filter ticket status",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        460,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "issueKey": "={{ $('Extract Key').item.json.key }}",
+        "updateFields": {
+          "statusId": {
+            "__rl": true,
+            "value": "31",
+            "mode": "list",
+            "cachedResultName": "Done"
+          }
+        }
+      },
+      "id": "95ddd42b-8806-4ad0-867b-043e9ae1b429",
+      "name": "Move to Done",
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        700,
+        540
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "1",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Extract Key": [
+      {
+        "json": {
+          "headers": {
+            "x-vss-activityid": "ed33bab7-b0c7-0000-c85d-8b9d79aed901",
+            "x-vss-subscriptionid": "e652f7ca-34df-49bb-9790-8a698b41c754",
+            "user-agent": "VSServices/19.223.33826.1 (w3wp.exe)",
+            "content-type": "application/json; charset=utf-8",
+            "host": "150.230.249.206:5678",
+            "request-context": "appId=cid-v1:e1fea76c-829b-40b5-a0ec-38a286d5e2c0",
+            "request-id": "|f0b706eb48ef92408984a72cbf4bffb9.4da3914ee5c3e842.",
+            "traceparent": "00-f0b706eb48ef92408984a72cbf4bffb9-4da3914ee5c3e842-00",
+            "content-length": "7014",
+            "expect": "100-continue",
+            "connection": "Keep-Alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "subscriptionId": "e652f7ca-34df-49bb-9790-8a698b41c754",
+            "notificationId": 125,
+            "id": "ac29098b-64a2-4cd4-a5c5-dbab3bd00562",
+            "eventType": "git.pullrequest.created",
+            "publisherId": "tfs",
+            "message": {
+              "text": "dominik.oh created pull request 45803 (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in tesla\r\nhttps://cupix.visualstudio.com/tesla/_git/tesla/",
+              "html": "dominik.oh created <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803\">pull request 45803</a> (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/\">tesla</a>",
+              "markdown": "dominik.oh created [pull request 45803](https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803) (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in [tesla](https://cupix.visualstudio.com/tesla/_git/tesla/)"
+            },
+            "detailedMessage": {
+              "text": "dominik.oh created pull request 45803 (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in tesla\r\nhttps://cupix.visualstudio.com/tesla/_git/tesla/\r\n# Changes\r\n\r\n- state를 `skipped`로 설정하는것을 factory에서 설정하도록 변경\r\n\r\n- 관련 테스트 코드 작성\r\n",
+              "html": "dominik.oh created <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803\">pull request 45803</a> (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/\">tesla</a><p># Changes</p><p>- state를 `skipped`로 설정하는것을 factory에서 설정하도록 변경</p><p>- 관련 테스트 코드 작성</p>",
+              "markdown": "dominik.oh created [pull request 45803](https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803) (TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상) in [tesla](https://cupix.visualstudio.com/tesla/_git/tesla/)\r\n# Changes\r\n\r\n- state를 `skipped`로 설정하는것을 factory에서 설정하도록 변경\r\n\r\n- 관련 테스트 코드 작성\r\n"
+            },
+            "resource": {
+              "repository": {
+                "id": "f9d73962-2f27-440f-a713-1bcbbfc6c02a",
+                "name": "tesla",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a",
+                "project": {
+                  "id": "982b1733-e76d-4671-89fe-d5a02bd6c237",
+                  "name": "tesla",
+                  "url": "https://cupix.visualstudio.com/_apis/projects/982b1733-e76d-4671-89fe-d5a02bd6c237",
+                  "state": "wellFormed",
+                  "revision": 767,
+                  "visibility": "private",
+                  "lastUpdateTime": "2022-11-07T03:36:26.6Z"
+                },
+                "size": 213644102,
+                "remoteUrl": "https://cupix.visualstudio.com/DefaultCollection/tesla/_git/tesla",
+                "sshUrl": "cupix@vs-ssh.visualstudio.com:v3/cupix/tesla/tesla",
+                "webUrl": "https://cupix.visualstudio.com/DefaultCollection/tesla/_git/tesla",
+                "isDisabled": false,
+                "isInMaintenance": false
+              },
+              "pullRequestId": 45803,
+              "codeReviewId": 45803,
+              "status": "active",
+              "createdBy": {
+                "displayName": "dominik.oh",
+                "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "_links": {
+                  "avatar": {
+                    "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+                  }
+                },
+                "id": "2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "uniqueName": "dominik.oh@cupix.com",
+                "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "descriptor": "aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+              },
+              "creationDate": "2023-07-13T03:58:08.1036446Z",
+              "title": "TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
+              "description": "# Changes\n- state를 `skipped`로 설정하는것을 factory에서 설정하도록 변경\n- 관련 테스트 코드 작성",
+              "sourceRefName": "refs/heads/feature/TSLA-5214",
+              "targetRefName": "refs/heads/develop",
+              "mergeStatus": "succeeded",
+              "isDraft": false,
+              "mergeId": "1b30d54e-f0cb-4e8d-9c91-b74a5d46fcc9",
+              "lastMergeSourceCommit": {
+                "commitId": "6e24dc73c759c568a9d333f51b73e14ba25ee933",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/6e24dc73c759c568a9d333f51b73e14ba25ee933"
+              },
+              "lastMergeTargetCommit": {
+                "commitId": "fdaef498fb39b04d046bac36df1517813694d8bf",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/fdaef498fb39b04d046bac36df1517813694d8bf"
+              },
+              "lastMergeCommit": {
+                "commitId": "8a7a7657b4c7f860882342c605fbd701abd3fb6e",
+                "author": {
+                  "name": "dominik.oh",
+                  "email": "dominik.oh@cupix.com",
+                  "date": "2023-07-13T03:58:08Z"
+                },
+                "committer": {
+                  "name": "dominik.oh",
+                  "email": "dominik.oh@cupix.com",
+                  "date": "2023-07-13T03:58:08Z"
+                },
+                "comment": "Merge pull request 45803 from feature/TSLA-5214 into develop",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/8a7a7657b4c7f860882342c605fbd701abd3fb6e"
+              },
+              "reviewers": [
+                {
+                  "reviewerUrl": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45803/reviewers/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "vote": 0,
+                  "hasDeclined": false,
+                  "isRequired": true,
+                  "isFlagged": false,
+                  "displayName": "[tesla]\\Tesla Required Reviewers",
+                  "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "_links": {
+                    "avatar": {
+                      "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/vssgp.Uy0xLTktMTU1MTM3NDI0NS04NTcxNTY1MDQtMTg0Mzg4NDM1OC0yMzE1MTc5NDI0LTczNTQ5NDcxMS0xLTgxNjc4OTg4Ny04ODAxNTg1MzUtMjg3MTY4ODY1OC0zMjE4Mjk3MDkx"
+                    }
+                  },
+                  "id": "82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "uniqueName": "vstfs:///Classification/TeamProject/982b1733-e76d-4671-89fe-d5a02bd6c237\\Tesla Required Reviewers",
+                  "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "isContainer": true
+                }
+              ],
+              "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45803",
+              "_links": {
+                "web": {
+                  "href": "https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803"
+                },
+                "statuses": {
+                  "href": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45803/statuses"
+                }
+              },
+              "supportsIterations": true,
+              "artifactId": "vstfs:///Git/PullRequestId/982b1733-e76d-4671-89fe-d5a02bd6c237%2ff9d73962-2f27-440f-a713-1bcbbfc6c02a%2f45803"
+            },
+            "resourceVersion": "1.0",
+            "resourceContainers": {
+              "collection": {
+                "id": "0c317d4e-04b1-4bc2-b253-6c40eff77b33",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              },
+              "account": {
+                "id": "afc8ff22-1cd9-4ef0-a4fc-18f454d5ea76",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              },
+              "project": {
+                "id": "982b1733-e76d-4671-89fe-d5a02bd6c237",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              }
+            },
+            "createdDate": "2023-07-13T03:58:14.8741379Z"
+          },
+          "url": "https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803",
+          "title": "TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
+          "key": "TSLA-5214"
+        }
+      }
+    ],
+    "Jira Software": [
+      {
+        "json": {
+          "id": "48598",
+          "key": "TSLA-5214",
+          "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598",
+          "Σ Progress": {
+            "progress": 0,
+            "total": 0
+          },
+          "Σ Remaining Estimate": null,
+          "Σ Original Estimate": null,
+          "Σ Time Spent": null,
+          "Assignee": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+            "accountId": "63f2fb05fb3ac4003fa1b66b",
+            "emailAddress": "dominik.oh@cupix.com",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+            },
+            "displayName": "Dominik Oh",
+            "active": true,
+            "timeZone": "America/Chicago",
+            "accountType": "atlassian"
+          },
+          "Attachment": [],
+          "Comment": {
+            "comments": [
+              {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/25971",
+                "id": "25971",
+                "author": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "body": "ES indexing 후 다시 테스트 예정",
+                "updateAuthor": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "created": "2023-06-30T03:49:50.759-0500",
+                "updated": "2023-06-30T03:49:50.759-0500",
+                "jsdPublic": true
+              },
+              {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/26083",
+                "id": "26083",
+                "author": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "body": "ES indexing 을 다 하고도 동일한 문제 발생",
+                "updateAuthor": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "created": "2023-07-10T03:25:22.825-0500",
+                "updated": "2023-07-10T03:25:22.825-0500",
+                "jsdPublic": true
+              }
+            ],
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment",
+            "maxResults": 2,
+            "total": 2,
+            "startAt": 0
+          },
+          "Components": [
+            {
+              "self": "https://cupixrnd.atlassian.net/rest/api/2/component/10109",
+              "id": "10109",
+              "name": "Tesla API",
+              "description": "REST API for CupixWorks"
+            }
+          ],
+          "Created": "2023-03-08T19:26:45.407-0600",
+          "Creator": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
+            "accountId": "606d10c0c040cd0069d5b341",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
+            },
+            "displayName": "eddy.lee",
+            "active": true,
+            "timeZone": "Asia/Tokyo",
+            "accountType": "atlassian"
+          },
+          "Description": "@eddy lee editing 수정 사항 확인부탁드립니다 {{dev}}\n1. editing 중인데 state가 ready로 남아있음 editing id 442\n2. url 파라메터로 states=ready 보냈는데 state = skipped도 같이 보여짐\n\n_Issue created in Slack from a_ [_message_|https://cupix.slack.com/archives/C01A4LW8RLY/p1678324988320939?thread_ts=1678324988.320939&cid=C01A4LW8RLY]_._\n\n\n\nh1. Changes\n\nh2. Before\n\n아래 두개의 condition 중 하나만 만족되면 editing list에 보이도록 되어있었음\n\n* {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}} \n* editing_done_at 이 2주가 넘지 않았을경우\n\n\n\n이때의 문제는 해당 states가 아님에도 editing_done_at이 설정되있으면 목록에 나옴\n\n* ex) skipped라도 editing_done_at이 설정되있으면 목록에 나옴\n\nh2. After\n\n* 기본적으로는 {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}}  이 상태만 보여줌\n* 쿼리옵션에 {{states}} 를 넣는경우, 쿼리옵션의 state만 보여줌",
+          "Due date": null,
+          "Environment": null,
+          "Fix versions": [
+            {
+              "self": "https://cupixrnd.atlassian.net/rest/api/2/version/11474",
+              "id": "11474",
+              "description": "",
+              "name": "1.10.11",
+              "archived": false,
+              "released": false,
+              "releaseDate": "2023-07-11"
+            }
+          ],
+          "Linked Issues": [],
+          "Restrict to": {
+            "issuerestrictions": {},
+            "shouldDisplay": false
+          },
+          "Issue Type": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issuetype/10005",
+            "id": "10005",
+            "description": "A problem which impairs or prevents the functions of the product.",
+            "iconUrl": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium",
+            "name": "Bug",
+            "subtask": false,
+            "avatarId": 10303,
+            "hierarchyLevel": 0
+          },
+          "Labels": [],
+          "Last Viewed": "2023-07-12T22:57:01.467-0500",
+          "Priority": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/priority/3",
+            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "Progress": {
+            "progress": 0,
+            "total": 0
+          },
+          "Project": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/project/10114",
+            "id": "10114",
+            "key": "TSLA",
+            "name": "Tesla",
+            "projectTypeKey": "software",
+            "simplified": false,
+            "avatarUrls": {
+              "48x48": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501",
+              "24x24": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=small",
+              "16x16": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=xsmall",
+              "32x32": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=medium"
+            }
+          },
+          "Reporter": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
+            "accountId": "606d10c0c040cd0069d5b341",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
+            },
+            "displayName": "eddy.lee",
+            "active": true,
+            "timeZone": "Asia/Tokyo",
+            "accountType": "atlassian"
+          },
+          "Resolution": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/resolution/10000",
+            "id": "10000",
+            "description": "Work has been completed on this issue.",
+            "name": "Done"
+          },
+          "Resolved": "2023-06-30T01:52:55.110-0500",
+          "Security Level": null,
+          "Status": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/status/10220",
+            "description": "",
+            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/statuses/generic.png",
+            "name": "QA Open",
+            "id": "10220",
+            "statusCategory": {
+              "self": "https://cupixrnd.atlassian.net/rest/api/2/statuscategory/2",
+              "id": 2,
+              "key": "new",
+              "colorName": "blue-gray",
+              "name": "To Do"
+            }
+          },
+          "Status Category Changed": "2023-06-30T03:45:59.163-0500",
+          "Sub-tasks": [],
+          "Summary": "Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
+          "Remaining Estimate": null,
+          "Original estimate": null,
+          "Time Spent": null,
+          "Time tracking": {},
+          "Updated": "2023-07-12T22:58:25.919-0500",
+          "Affects versions": [],
+          "Votes": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/votes",
+            "votes": 0,
+            "hasVoted": false
+          },
+          "Watchers": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/watchers",
+            "watchCount": 2,
+            "isWatching": true
+          },
+          "Log Work": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+          },
+          "Work Ratio": -1,
+          "Team": null,
+          "Organizations": null,
+          "Epic Link": null,
+          "Parent Link": {
+            "hasEpicLinkFieldDependency": false,
+            "showField": false,
+            "nonEditableReason": {
+              "reason": "PLUGIN_LICENSE_ERROR",
+              "message": "The Parent Link is only available to Jira Premium users."
+            }
+          },
+          "Sprint": [
+            {
+              "id": 761,
+              "name": "6/27 Backend Sprint 186",
+              "state": "closed",
+              "boardId": 14,
+              "goal": "",
+              "startDate": "2023-06-27T00:56:54.988Z",
+              "endDate": "2023-07-04T00:56:00.000Z",
+              "completeDate": "2023-07-04T00:58:14.586Z"
+            },
+            {
+              "id": 762,
+              "name": "7/4 Backend Sprint 187",
+              "state": "closed",
+              "boardId": 14,
+              "goal": "",
+              "startDate": "2023-07-04T00:58:26.521Z",
+              "endDate": "2023-07-11T00:58:00.000Z",
+              "completeDate": "2023-07-11T00:28:51.754Z"
+            },
+            {
+              "id": 763,
+              "name": "7/11 Backend Sprint 188",
+              "state": "active",
+              "boardId": 14,
+              "goal": "",
+              "startDate": "2023-07-11T00:31:05.098Z",
+              "endDate": "2023-07-18T00:31:00.000Z"
+            }
+          ],
+          "Rank": "0|i05jj1:",
+          "[CHART] Date of First Response": "2023-06-30T03:49:50.759-0500",
+          "[CHART] Time in Status": "3_*:*_1_*:*_87447249_*|*_10000_*:*_1_*:*_9673980677_*|*_10002_*:*_1_*:*_0_*|*_10001_*:*_1_*:*_21341826",
+          "Freshdesk Tickets": null,
+          "Story Points": 0.25,
+          "Flagged": null,
+          "Start date": null,
+          "Request Type": null,
+          "Request participants": [],
+          "Story point estimate": null,
+          "Tour Link": null,
+          "Test Account": null,
+          "Test Date": null,
+          "Test Environment": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/customFieldOption/10111",
+            "value": "Production",
+            "id": "10111"
+          },
+          "Issue color": null,
+          "Satisfaction": null,
+          "Target start": null,
+          "Target end": null,
+          "Slack Link": null,
+          "CW Reporter": null,
+          "Slack TS": null,
+          "CW board": null,
+          "QA tracking": null,
+          "TC link": null,
+          "TC id": null,
+          "Test Cases": null,
+          "Approvals": null,
+          "Satisfaction date": null,
+          "Approvers": null,
+          "Affected services": null,
+          "Time to resolution": null,
+          "Time to first response": null,
+          "Request language": null,
+          "Slack TS2": null,
+          "정보보호코드": null,
+          "정보보호 점검항목": null,
+          "Urgency": null,
+          "Impact": null,
+          "Pending reason": null,
+          "Product categorization": null,
+          "Operational categorization": null,
+          "Affected hardware": null,
+          "Severity": null,
+          "Source": null,
+          "Change type": null,
+          "Change risk": null,
+          "Change reason": null,
+          "Implementation plan": null,
+          "Backout plan": null,
+          "Test plan": null,
+          "Planned start": null,
+          "Planned end": null,
+          "Actual start": null,
+          "Actual end": null,
+          "Investigation reason": null,
+          "Root cause": null,
+          "Workaround": null,
+          "Time to close after resolution": null,
+          "Time to review normal change": null,
+          "Responders": [],
+          "Work category": null,
+          "Approver groups": null,
+          "Major incident": null,
+          "QA Description": null,
+          "QA Assignee": null,
+          "Expected Stage Release": null,
+          "Open forms": null,
+          "Submitted forms": null,
+          "Locked forms": null,
+          "Total forms": null,
+          "Compass": null,
+          "Category": null
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-vss-activityid": "b8e7efc1-c87f-0001-f976-689d79aed901",
+            "x-vss-subscriptionid": "8ae7e711-de4d-42dc-b41f-a873992949fb",
+            "user-agent": "VSServices/19.223.33826.1 (w3wp.exe)",
+            "content-type": "application/json; charset=utf-8",
+            "host": "150.230.249.206:5678",
+            "request-context": "appId=cid-v1:e1fea76c-829b-40b5-a0ec-38a286d5e2c0",
+            "request-id": "|d117a56023c59742a6bc723a0a7e2352.f77c3c5b0f9c4540.",
+            "traceparent": "00-d117a56023c59742a6bc723a0a7e2352-f77c3c5b0f9c4540-00",
+            "content-length": "15912",
+            "expect": "100-continue",
+            "connection": "Keep-Alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "subscriptionId": "8ae7e711-de4d-42dc-b41f-a873992949fb",
+            "notificationId": 7,
+            "id": "4979c6cd-072f-46b6-a1fc-c778821fdb3b",
+            "eventType": "git.pullrequest.merged",
+            "publisherId": "tfs",
+            "message": {
+              "text": "Merge attempted dominik.oh for pull request 45822 (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in tesla\r\nhttps://cupix.visualstudio.com/tesla/_git/tesla/",
+              "html": "Merge attempted dominik.oh for <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45822\">pull request 45822</a> (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/\">tesla</a>",
+              "markdown": "Merge attempted dominik.oh for [pull request 45822](https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45822) (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in [tesla](https://cupix.visualstudio.com/tesla/_git/tesla/)"
+            },
+            "detailedMessage": {
+              "text": "Merge attempted dominik.oh for pull request 45822 (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in tesla\r\nhttps://cupix.visualstudio.com/tesla/_git/tesla/\r\n# Spec\r\n\r\n- capture에 error_code가 들어가있는 경우에는 editing을 배정하지 않는다\r\n\r\n- 이 경우 QA팀에서 수동으로 error_code를 수정하고, 재계산을 돌리거나 클라이언트에게 다시 요청\r\n\r\n- capture error list보다 editing_entity error list를 확인하는게 추후 확장성에 좋다고 생각됨\r\n\r\n  - editing_entity list 조회 시 `states=error` 필터를 추가하면 확인 가능\r\n\r\n\r\n\r\n# Changes\r\n\r\n- `editing_entity`에 `error` state를 추가\r\n\r\n- entity(capture 등) 에 에러 코드가 있는경우 error state\r\n\r\n- error state인 경우 editing을 nil로 설정\r\n\r\n\r\n\r\n# Test\r\n\r\n```\r\n\r\nRandomized with seed 20065\r\n\r\n....\r\n\r\n\r\n\r\nTop 4 slowest examples (14.93 seconds, 100.0% of total time):\r\n\r\n  EditingEntityFactory#create! state = error if entity state = error\r\n\r\n    5.94 seconds ./spec/factory/editing_entity_factory_spec.rb:44\r\n\r\n  EditingEntityFactory#create! creates a new editing entity\r\n\r\n    3.33 seconds ./spec/factory/editing_entity_factory_spec.rb:8\r\n\r\n  EditingEntityFactory#create! state = error if entity has error_code\r\n\r\n    2.93 seconds ./spec/factory/editing_entity_factory_spec.rb:30\r\n\r\n  EditingEntityFactory#create! raise an error if entity type is not ALLOWED_EDITABLE_ENTITIES\r\n\r\n    2.73 seconds ./spec/factory/editing_entity_factory_spec.rb:20\r\n\r\n```\r\n",
+              "html": "Merge attempted dominik.oh for <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45822\">pull request 45822</a> (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in <a href=\"https://cupix.visualstudio.com/tesla/_git/tesla/\">tesla</a><p># Spec</p><p>- capture에 error_code가 들어가있는 경우에는 editing을 배정하지 않는다</p><p>- 이 경우 QA팀에서 수동으로 error_code를 수정하고, 재계산을 돌리거나 클라이언트에게 다시 요청</p><p>- capture error list보다 editing_entity error list를 확인하는게 추후 확장성에 좋다고 생각됨</p><p>  - editing_entity list 조회 시 `states=error` 필터를 추가하면 확인 가능</p><p></p><p># Changes</p><p>- `editing_entity`에 `error` state를 추가</p><p>- entity(capture 등) 에 에러 코드가 있는경우 error state</p><p>- error state인 경우 editing을 nil로 설정</p><p></p><p># Test</p><p>```</p><p>Randomized with seed 20065</p><p>....</p><p></p><p>Top 4 slowest examples (14.93 seconds, 100.0% of total time):</p><p>  EditingEntityFactory#create! state = error if entity state = error</p><p>    5.94 seconds ./spec/factory/editing_entity_factory_spec.rb:44</p><p>  EditingEntityFactory#create! creates a new editing entity</p><p>    3.33 seconds ./spec/factory/editing_entity_factory_spec.rb:8</p><p>  EditingEntityFactory#create! state = error if entity has error_code</p><p>    2.93 seconds ./spec/factory/editing_entity_factory_spec.rb:30</p><p>  EditingEntityFactory#create! raise an error if entity type is not ALLOWED_EDITABLE_ENTITIES</p><p>    2.73 seconds ./spec/factory/editing_entity_factory_spec.rb:20</p><p>```</p>",
+              "markdown": "Merge attempted dominik.oh for [pull request 45822](https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45822) (TSLA-5804 error code가 있는 editing은 배정하지 않는다) in [tesla](https://cupix.visualstudio.com/tesla/_git/tesla/)\r\n# Spec\r\n\r\n- capture에 error_code가 들어가있는 경우에는 editing을 배정하지 않는다\r\n\r\n- 이 경우 QA팀에서 수동으로 error_code를 수정하고, 재계산을 돌리거나 클라이언트에게 다시 요청\r\n\r\n- capture error list보다 editing_entity error list를 확인하는게 추후 확장성에 좋다고 생각됨\r\n\r\n  - editing_entity list 조회 시 `states=error` 필터를 추가하면 확인 가능\r\n\r\n\r\n\r\n# Changes\r\n\r\n- `editing_entity`에 `error` state를 추가\r\n\r\n- entity(capture 등) 에 에러 코드가 있는경우 error state\r\n\r\n- error state인 경우 editing을 nil로 설정\r\n\r\n\r\n\r\n# Test\r\n\r\n```\r\n\r\nRandomized with seed 20065\r\n\r\n....\r\n\r\n\r\n\r\nTop 4 slowest examples (14.93 seconds, 100.0% of total time):\r\n\r\n  EditingEntityFactory#create! state = error if entity state = error\r\n\r\n    5.94 seconds ./spec/factory/editing_entity_factory_spec.rb:44\r\n\r\n  EditingEntityFactory#create! creates a new editing entity\r\n\r\n    3.33 seconds ./spec/factory/editing_entity_factory_spec.rb:8\r\n\r\n  EditingEntityFactory#create! state = error if entity has error_code\r\n\r\n    2.93 seconds ./spec/factory/editing_entity_factory_spec.rb:30\r\n\r\n  EditingEntityFactory#create! raise an error if entity type is not ALLOWED_EDITABLE_ENTITIES\r\n\r\n    2.73 seconds ./spec/factory/editing_entity_factory_spec.rb:20\r\n\r\n```\r\n"
+            },
+            "resource": {
+              "repository": {
+                "id": "f9d73962-2f27-440f-a713-1bcbbfc6c02a",
+                "name": "tesla",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a",
+                "project": {
+                  "id": "982b1733-e76d-4671-89fe-d5a02bd6c237",
+                  "name": "tesla",
+                  "url": "https://cupix.visualstudio.com/_apis/projects/982b1733-e76d-4671-89fe-d5a02bd6c237",
+                  "state": "wellFormed",
+                  "revision": 767,
+                  "visibility": "private",
+                  "lastUpdateTime": "2022-11-07T03:36:26.6Z"
+                },
+                "size": 213644102,
+                "remoteUrl": "https://cupix.visualstudio.com/DefaultCollection/tesla/_git/tesla",
+                "sshUrl": "cupix@vs-ssh.visualstudio.com:v3/cupix/tesla/tesla",
+                "webUrl": "https://cupix.visualstudio.com/DefaultCollection/tesla/_git/tesla",
+                "isDisabled": false,
+                "isInMaintenance": false
+              },
+              "pullRequestId": 45822,
+              "codeReviewId": 45822,
+              "status": "completed",
+              "createdBy": {
+                "displayName": "dominik.oh",
+                "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "_links": {
+                  "avatar": {
+                    "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+                  }
+                },
+                "id": "2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "uniqueName": "dominik.oh@cupix.com",
+                "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "descriptor": "aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+              },
+              "creationDate": "2023-07-13T07:35:28.3493756Z",
+              "closedDate": "2023-07-13T08:49:01.7853177Z",
+              "title": "TSLA-5804 error code가 있는 editing은 배정하지 않는다",
+              "description": "# Spec\n- capture에 error_code가 들어가있는 경우에는 editing을 배정하지 않는다\n- 이 경우 QA팀에서 수동으로 error_code를 수정하고, 재계산을 돌리거나 클라이언트에게 다시 요청\n- capture error list보다 editing_entity error list를 확인하는게 추후 확장성에 좋다고 생각됨\n  - editing_entity list 조회 시 `states=error` 필터를 추가하면 확인 가능\n\n# Changes\n- `editing_entity`에 `error` state를 추가\n- entity(capture 등) 에 에러 코드가 있는경우 error state\n- error state인 경우 editing을 nil로 설정\n\n# Test\n```\nRandomized with seed 20065\n....\n\nTop 4 slowest examples (14.93 seconds, 100.0% of total time):\n  EditingEntityFactory#create! state = error if entity state = error\n    5.94 seconds ./spec/factory/editing_entity_factory_spec.rb:44\n  EditingEntityFactory#create! creates a new editing entity\n    3.33 seconds ./spec/factory/editing_entity_factory_spec.rb:8\n  EditingEntityFactory#create! state = error if entity has error_code\n    2.93 seconds ./spec/factory/editing_entity_factory_spec.rb:30\n  EditingEntityFactory#create! raise an error if entity type is not ALLOWED_EDITABLE_ENTITIES\n    2.73 seconds ./spec/factory/editing_entity_factory_spec.rb:20\n```",
+              "sourceRefName": "refs/heads/feature/TSLA-5804",
+              "targetRefName": "refs/heads/develop",
+              "mergeStatus": "succeeded",
+              "isDraft": false,
+              "mergeId": "be90f4cb-6e98-4f6c-ac4b-df16d92aa98d",
+              "lastMergeSourceCommit": {
+                "commitId": "10f2a705d335595119be225f62dd2dcc83977747",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/10f2a705d335595119be225f62dd2dcc83977747"
+              },
+              "lastMergeTargetCommit": {
+                "commitId": "2b8c1a2e39e06c86f8542c64048580a6750513e5",
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/2b8c1a2e39e06c86f8542c64048580a6750513e5"
+              },
+              "lastMergeCommit": {
+                "commitId": "8903c818c5e938c6a26aac50a9b303544b4e03b9",
+                "author": {
+                  "name": "dominik.oh",
+                  "email": "dominik.oh@cupix.com",
+                  "date": "2023-07-13T08:49:01Z"
+                },
+                "committer": {
+                  "name": "dominik.oh",
+                  "email": "dominik.oh@cupix.com",
+                  "date": "2023-07-13T08:49:01Z"
+                },
+                "comment": "Merged PR 45822: TSLA-5804 error code가 있는 editing은 배정하지 않는다",
+                "commentTruncated": true,
+                "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/8903c818c5e938c6a26aac50a9b303544b4e03b9"
+              },
+              "reviewers": [
+                {
+                  "reviewerUrl": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45822/reviewers/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "vote": 5,
+                  "hasDeclined": false,
+                  "isRequired": true,
+                  "isFlagged": false,
+                  "displayName": "[tesla]\\Tesla Required Reviewers",
+                  "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "_links": {
+                    "avatar": {
+                      "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/vssgp.Uy0xLTktMTU1MTM3NDI0NS04NTcxNTY1MDQtMTg0Mzg4NDM1OC0yMzE1MTc5NDI0LTczNTQ5NDcxMS0xLTgxNjc4OTg4Ny04ODAxNTg1MzUtMjg3MTY4ODY1OC0zMjE4Mjk3MDkx"
+                    }
+                  },
+                  "id": "82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "uniqueName": "vstfs:///Classification/TeamProject/982b1733-e76d-4671-89fe-d5a02bd6c237\\Tesla Required Reviewers",
+                  "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=82f97e67-d12d-4b7a-8286-71848174bbbd",
+                  "isContainer": true
+                },
+                {
+                  "reviewerUrl": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45822/reviewers/cad73f45-40c5-4f95-8bf1-a00278ffc9d2",
+                  "vote": 5,
+                  "votedFor": [
+                    {
+                      "reviewerUrl": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45822/reviewers/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                      "vote": 0,
+                      "displayName": "[tesla]\\Tesla Required Reviewers",
+                      "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/82f97e67-d12d-4b7a-8286-71848174bbbd",
+                      "_links": {
+                        "avatar": {
+                          "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/vssgp.Uy0xLTktMTU1MTM3NDI0NS04NTcxNTY1MDQtMTg0Mzg4NDM1OC0yMzE1MTc5NDI0LTczNTQ5NDcxMS0xLTgxNjc4OTg4Ny04ODAxNTg1MzUtMjg3MTY4ODY1OC0zMjE4Mjk3MDkx"
+                        }
+                      },
+                      "id": "82f97e67-d12d-4b7a-8286-71848174bbbd",
+                      "uniqueName": "vstfs:///Classification/TeamProject/982b1733-e76d-4671-89fe-d5a02bd6c237\\Tesla Required Reviewers",
+                      "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=82f97e67-d12d-4b7a-8286-71848174bbbd",
+                      "isContainer": true
+                    }
+                  ],
+                  "hasDeclined": false,
+                  "isRequired": true,
+                  "isFlagged": false,
+                  "displayName": "eddy lee",
+                  "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/cad73f45-40c5-4f95-8bf1-a00278ffc9d2",
+                  "_links": {
+                    "avatar": {
+                      "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/aad.N2JjYWFhOWEtYzY3OS03MWM3LWFjYTQtMDQ2ZGE3YTA3MTYw"
+                    }
+                  },
+                  "id": "cad73f45-40c5-4f95-8bf1-a00278ffc9d2",
+                  "uniqueName": "eddy.lee@cupix.com",
+                  "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=cad73f45-40c5-4f95-8bf1-a00278ffc9d2"
+                }
+              ],
+              "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45822",
+              "_links": {
+                "web": {
+                  "href": "https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45822"
+                },
+                "statuses": {
+                  "href": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/pullRequests/45822/statuses"
+                }
+              },
+              "completionOptions": {
+                "mergeCommitMessage": "Merged PR 45822: TSLA-5804 error code가 있는 editing은 배정하지 않는다\n\n# Spec\n- capture에 error_code가 들어가있는 경우에는 editing을 배정하지 않는다\n- 이 경우 QA팀에서 수동으로 error_code를 수정하고, 재계산을 돌리거나 클라이언트에게 다시 요청\n- capture error list보다 editing_entity error list를 확인하는게 추후 확장성에 좋다고 생각됨\n  - editing_entity list 조회 시 `states=error` 필터를 추가하면 확인 가능\n\n# Changes\n- `editing_entity`에 `error` state를 추가\n- entity(capture 등) 에 에러 코드가 있는경우 error state\n- error state인 경우 editing을 nil로 설정\n\n# Test\n```\nRandomized with seed 4793\n...\n\nTop 3 slowest examples (11.96 seconds, 100.0% of total time):\n  EditingEntityFactory#create! creates a new editing entity\n    6.03 seconds ./spec/factory/editing_entity_factory_spec.rb:8\n  EditingEntityFactory#create! state = error if entity has error_code\n    3.16 seconds ./spec/factory/editing_entity_factory_spec.rb:30\n  EditingEntityFactory#create! raise an error if entity type is not ALLOWED_EDITABLE_ENTITIES\n    2.77 seconds ./spec/factory/editing_entity_factory_spec.rb:20\n```",
+                "deleteSourceBranch": true,
+                "mergeStrategy": "noFastForward",
+                "triggeredByAutoComplete": true,
+                "autoCompleteIgnoreConfigIds": []
+              },
+              "supportsIterations": true,
+              "completionQueueTime": "2023-07-13T08:49:01.0873668Z",
+              "closedBy": {
+                "displayName": "dominik.oh",
+                "url": "https://spsprodeus23.vssps.visualstudio.com/Aafc8ff22-1cd9-4ef0-a4fc-18f454d5ea76/_apis/Identities/2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "_links": {
+                  "avatar": {
+                    "href": "https://cupix.visualstudio.com/_apis/GraphProfile/MemberAvatars/aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+                  }
+                },
+                "id": "2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "uniqueName": "dominik.oh@cupix.com",
+                "imageUrl": "https://cupix.visualstudio.com/_api/_common/identityImage?id=2840d5e1-e3c5-4de2-8b3c-140cd7a215a7",
+                "descriptor": "aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
+              },
+              "artifactId": "vstfs:///Git/PullRequestId/982b1733-e76d-4671-89fe-d5a02bd6c237%2ff9d73962-2f27-440f-a713-1bcbbfc6c02a%2f45822"
+            },
+            "resourceVersion": "1.0",
+            "resourceContainers": {
+              "collection": {
+                "id": "0c317d4e-04b1-4bc2-b253-6c40eff77b33",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              },
+              "account": {
+                "id": "afc8ff22-1cd9-4ef0-a4fc-18f454d5ea76",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              },
+              "project": {
+                "id": "982b1733-e76d-4671-89fe-d5a02bd6c237",
+                "baseUrl": "https://cupix.visualstudio.com/"
+              }
+            },
+            "createdDate": "2023-07-13T08:49:07.8351568Z"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-13T08:57:23.000Z",
+  "versionId": "954c539a-8cd1-4ebe-99cd-e9cc1a9cdab2"
+}
