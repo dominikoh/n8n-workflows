@@ -221,6 +221,12 @@
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
+      "credentials": {
+        "githubApi": {
+          "id": "Dk9rdtcZ3LB4r8Vs",
+          "name": "GitHub account"
+        }
+      },
       "continueOnFail": true
     },
     {
@@ -302,7 +308,13 @@
         920,
         780
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "githubApi": {
+          "id": "Dk9rdtcZ3LB4r8Vs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -320,7 +332,13 @@
         920,
         960
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "githubApi": {
+          "id": "Dk9rdtcZ3LB4r8Vs",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -473,7 +491,7 @@
       "parameters": {
         "url": "https://n8n.cupix.com/api/v1/workflows",
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpBasicAuth",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -492,7 +510,13 @@
       "position": [
         -820,
         800
-      ]
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "E2r4A2BVwjncNlXB",
+          "name": "n8n api"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -501,7 +525,7 @@
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-01-17T05:08:04.000Z",
-  "versionId": "f00c435e-b0db-4a8e-b2db-649642fb088f"
+  "triggerCount": 1,
+  "updatedAt": "2024-01-17T05:14:04.000Z",
+  "versionId": "a775b68c-6c50-4edf-bb53-d9208c117b93"
 }
