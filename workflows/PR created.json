@@ -38,6 +38,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Create Warden PR Link",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -113,8 +120,9 @@
       ]
     }
   },
-  "createdAt": "2023-06-23T03:56:25.905Z",
-  "id": "1",
+  "createdAt": "2024-01-17T05:19:50.597Z",
+  "id": "9zCrdVoCvmjqHKXN",
+  "meta": null,
   "name": "PR created",
   "nodes": [
     {
@@ -123,13 +131,13 @@
         "path": "9cd4f322-5eae-4586-9790-644a87105a4b",
         "options": {}
       },
-      "id": "ae0c5b6d-9328-4fb1-ae27-324bc38646a6",
+      "id": "c199f038-bde5-4a4b-bf60-30a6f2c0fb71",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        -340,
-        560
+        -200,
+        640
       ],
       "webhookId": "9cd4f322-5eae-4586-9790-644a87105a4b"
     },
@@ -149,13 +157,13 @@
         },
         "options": {}
       },
-      "id": "b1068d8f-03b1-442f-a628-e7efcd56b4e2",
+      "id": "994af15f-de34-4c3c-a0e3-ec9dc45ee959",
       "name": "Set",
       "type": "n8n-nodes-base.set",
       "typeVersion": 2,
       "position": [
-        -140,
-        560
+        0,
+        640
       ]
     },
     {
@@ -171,17 +179,22 @@
             {
               "operation": "contains",
               "value2": "tesla"
+            },
+            {
+              "operation": "contains",
+              "value2": "warden",
+              "output": 2
             }
           ]
         }
       },
-      "id": "a62d4e9d-2d54-4678-9575-6ed263068bad",
+      "id": "0baa89c9-ae0a-47a4-836f-94c07b188372",
       "name": "Switch",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
       "position": [
-        220,
-        560
+        360,
+        640
       ]
     },
     {
@@ -189,13 +202,13 @@
         "mode": "runOnceForEachItem",
         "jsCode": "// Extract key from title. ex) \"TSLA-1234 new pull request\" -> \"TSLA-1234\"\nvar title = $input.item.json.title;\nvar key = title.split(' ')[0];\n$input.item.json.key = key;\n\nreturn $input.item;"
       },
-      "id": "0625fe0f-bce7-4803-8c79-84eb838656ef",
+      "id": "399c1a01-67ea-4aa4-b034-bd156d543e79",
       "name": "Extract Key",
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
       "position": [
-        40,
-        560
+        180,
+        640
       ]
     },
     {
@@ -211,17 +224,17 @@
           }
         }
       },
-      "id": "9664c5a7-ced3-48f8-b253-46a6038d49a5",
+      "id": "26255dcb-45e3-490b-aed9-38ec211d9d9f",
       "name": "Move to InReview",
       "type": "n8n-nodes-base.jira",
       "typeVersion": 1,
       "position": [
-        1080,
-        260
+        1220,
+        340
       ],
       "credentials": {
         "jiraSoftwareCloudApi": {
-          "id": "1",
+          "id": "CzvvojOOsDljc4JM",
           "name": "Jira SW Cloud account"
         }
       }
@@ -233,20 +246,14 @@
         "simplifyOutput": true,
         "additionalFields": {}
       },
-      "id": "c3527ead-8316-4fcd-9ab9-d977f3283120",
+      "id": "7cbe5447-c444-4ff6-a056-d2e6a8aec921",
       "name": "Jira Software",
       "type": "n8n-nodes-base.jira",
       "typeVersion": 1,
       "position": [
-        680,
-        460
-      ],
-      "credentials": {
-        "jiraSoftwareCloudApi": {
-          "id": "1",
-          "name": "Jira SW Cloud account"
-        }
-      }
+        820,
+        540
+      ]
     },
     {
       "parameters": {
@@ -254,29 +261,29 @@
           "string": [
             {
               "value1": "={{ $json.Status.name }}",
-              "operation": "notEqual",
+              "operation": "notContains",
               "value2": "Done"
             },
             {
               "value1": "={{ $json.Status.name }} ",
-              "operation": "notEqual",
-              "value2": "IN REVIEW"
+              "operation": "notContains",
+              "value2": "REVIEW"
             },
             {
               "value1": "={{ $json.Status.name }} ",
-              "operation": "notEqual",
-              "value2": "QA Open"
+              "operation": "notContains",
+              "value2": "QA"
             }
           ]
         }
       },
-      "id": "2fea70be-24e0-4b8b-9a75-fb3bfbf6b26d",
+      "id": "5e0bb93b-768f-410c-ba1b-9963d0ac68e3",
       "name": "filter ticket status",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        860,
-        280
+        1000,
+        360
       ]
     },
     {
@@ -303,17 +310,17 @@
         "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"PR {{ $json[\"key\"] }}\"\n    }\n}",
         "options": {}
       },
-      "id": "00969856-f9ff-4078-9adb-0fe8b9a86d5d",
+      "id": "ec32c88b-518f-4a2e-bb78-ea85d81ea1d2",
       "name": "Create tesla PR Link",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        460,
-        460
+        600,
+        540
       ],
       "credentials": {
         "jiraSoftwareCloudApi": {
-          "id": "1",
+          "id": "CzvvojOOsDljc4JM",
           "name": "Jira SW Cloud account"
         }
       }
@@ -342,17 +349,17 @@
         "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"SDK PR {{ $json[\"key\"] }}\"\n    }\n}",
         "options": {}
       },
-      "id": "1543f00d-c303-46e7-a960-43c9713f4b64",
+      "id": "1f75a85a-4a72-4e1e-aa47-7b7447d08ed3",
       "name": "Create SDK PR Link",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        460,
-        680
+        600,
+        760
       ],
       "credentials": {
         "jiraSoftwareCloudApi": {
-          "id": "1",
+          "id": "CzvvojOOsDljc4JM",
           "name": "Jira SW Cloud account"
         }
       }
@@ -374,18 +381,18 @@
         },
         "options": {}
       },
-      "id": "eee6b8d0-f995-4a6b-b9dc-4e02168653aa",
+      "id": "9d9a004c-8578-483f-85b9-3d6f55cf1987",
       "name": "Set tag on PR",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        860,
-        460
+        1000,
+        540
       ],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "6",
-          "name": "Azure Devops "
+          "id": "FgYMCSTWNyqnQMSa",
+          "name": "Azure Devops"
         }
       }
     },
@@ -396,20 +403,14 @@
         "simplifyOutput": true,
         "additionalFields": {}
       },
-      "id": "5960e139-f9ac-4585-9342-a9a357ed44e2",
+      "id": "de4f93c9-f338-48fd-9db3-306c238aeaa4",
       "name": "Jira Software1",
       "type": "n8n-nodes-base.jira",
       "typeVersion": 1,
       "position": [
-        680,
-        680
-      ],
-      "credentials": {
-        "jiraSoftwareCloudApi": {
-          "id": "1",
-          "name": "Jira SW Cloud account"
-        }
-      }
+        820,
+        760
+      ]
     },
     {
       "parameters": {
@@ -428,18 +429,57 @@
         },
         "options": {}
       },
-      "id": "72241632-2101-46c2-8c4f-7665fdfab263",
+      "id": "64cb6663-4562-4710-84cd-381bc1278dd9",
       "name": "Set tag on PR1",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        860,
-        680
+        1000,
+        760
       ],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "6",
-          "name": "Azure Devops "
+          "id": "FgYMCSTWNyqnQMSa",
+          "name": "Azure Devops"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cupixrnd.atlassian.net/rest/api/3/issue/{{ $json.key }}/remotelink",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jiraSoftwareCloudApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"{{ $json.body.resource.repository.name }} PR {{ $json[\"key\"] }}\"\n    }\n} ",
+        "options": {}
+      },
+      "id": "bff0f7e3-c8e2-4ab1-a18f-946d544f4305",
+      "name": "Create Warden PR Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        980
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "CzvvojOOsDljc4JM",
+          "name": "Jira SW Cloud account"
         }
       }
     }
@@ -517,9 +557,9 @@
                 "descriptor": "aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
               },
               "creationDate": "2023-07-13T03:58:08.1036446Z",
-              "title": "TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
+              "title": "TSLA-6592 n8n automation",
               "description": "# Changes\n- state를 `skipped`로 설정하는것을 factory에서 설정하도록 변경\n- 관련 테스트 코드 작성",
-              "sourceRefName": "refs/heads/feature/TSLA-5214",
+              "sourceRefName": "refs/heads/feature/TSLA-6592",
               "targetRefName": "refs/heads/develop",
               "mergeStatus": "succeeded",
               "isDraft": false,
@@ -544,7 +584,7 @@
                   "email": "dominik.oh@cupix.com",
                   "date": "2023-07-13T03:58:08Z"
                 },
-                "comment": "Merge pull request 45803 from feature/TSLA-5214 into develop",
+                "comment": "Merge pull request 45803 from feature/TSLA-6592 into develop",
                 "url": "https://cupix.visualstudio.com/982b1733-e76d-4671-89fe-d5a02bd6c237/_apis/git/repositories/f9d73962-2f27-440f-a713-1bcbbfc6c02a/commits/8a7a7657b4c7f860882342c605fbd701abd3fb6e"
               },
               "reviewers": [
@@ -597,8 +637,8 @@
             "createdDate": "2023-07-13T03:58:14.8741379Z"
           },
           "url": "https://cupix.visualstudio.com/tesla/_git/tesla/pullrequest/45803",
-          "title": "TSLA-5214 Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
-          "key": "TSLA-5214"
+          "title": "TSLA-6592 n8n automation",
+          "key": "TSLA-6592"
         }
       }
     ],
@@ -1422,9 +1462,9 @@
                 "descriptor": "aad.OTA3OWRlYTMtYzRhMC03MDBmLTllNjgtNzJmYzU2ZWUwMWUw"
               },
               "creationDate": "2023-07-13T08:44:16.879396Z",
-              "title": "TSLA-5804 error code가 있는 editing은 배정하지 않는다",
+              "title": "TSLA-6592 [n8n] Automation test 용",
               "description": "# Changes\n- editing entity `state` 에 빠진 상태 추가\n  - holding\n  - error",
-              "sourceRefName": "refs/heads/feature/TSLA-5804",
+              "sourceRefName": "refs/heads/feature/TSLA-6592",
               "targetRefName": "refs/heads/develop",
               "mergeStatus": "succeeded",
               "isDraft": false,
@@ -1504,10 +1544,12 @@
       }
     ]
   },
-  "settings": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-07-13T08:58:03.000Z",
-  "versionId": "09d9e523-a1ca-4626-881c-0388107e1b99"
+  "updatedAt": "2024-01-17T05:22:55.000Z",
+  "versionId": "9cdc6589-7552-4db1-ae9d-db96a7edee09"
 }
