@@ -52,7 +52,7 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Check TSLA started",
             "type": "main",
             "index": 0
           }
@@ -118,6 +118,17 @@
           }
         ]
       ]
+    },
+    "Check TSLA started": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-01-17T05:19:50.597Z",
@@ -136,7 +147,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        -200,
+        -340,
         640
       ],
       "webhookId": "9cd4f322-5eae-4586-9790-644a87105a4b"
@@ -162,7 +173,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 2,
       "position": [
-        0,
+        -140,
         640
       ]
     },
@@ -207,7 +218,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
       "position": [
-        180,
+        40,
         640
       ]
     },
@@ -253,7 +264,13 @@
       "position": [
         820,
         540
-      ]
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "CzvvojOOsDljc4JM",
+          "name": "Jira SW Cloud account"
+        }
+      }
     },
     {
       "parameters": {
@@ -410,7 +427,13 @@
       "position": [
         820,
         760
-      ]
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "CzvvojOOsDljc4JM",
+          "name": "Jira SW Cloud account"
+        }
+      }
     },
     {
       "parameters": {
@@ -482,6 +505,38 @@
           "name": "Jira SW Cloud account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "5bcd124f-1b4c-4f04-b902-13e980ce778e",
+              "leftValue": "={{ $json.key }}",
+              "rightValue": "TSLA",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f9ffd56b-fa5f-48b0-b860-054e8aa89cfc",
+      "name": "Check TSLA started",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        200,
+        800
+      ]
     }
   ],
   "pinData": {
@@ -1550,6 +1605,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-01-17T05:22:55.000Z",
-  "versionId": "9cdc6589-7552-4db1-ae9d-db96a7edee09"
+  "updatedAt": "2024-01-19T03:30:05.000Z",
+  "versionId": "746aa261-22fa-4767-be17-00292a4d46e5"
 }
