@@ -41,7 +41,7 @@
         ],
         [
           {
-            "node": "Create Warden PR Link",
+            "node": "Create Others PR Link",
             "type": "main",
             "index": 0
           }
@@ -190,14 +190,10 @@
             {
               "operation": "contains",
               "value2": "tesla"
-            },
-            {
-              "operation": "contains",
-              "value2": "warden",
-              "output": 2
             }
           ]
-        }
+        },
+        "fallbackOutput": 2
       },
       "id": "0baa89c9-ae0a-47a4-836f-94c07b188372",
       "name": "Switch",
@@ -469,45 +465,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://cupixrnd.atlassian.net/rest/api/3/issue/{{ $json.key }}/remotelink",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "jiraSoftwareCloudApi",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Accept",
-              "value": "application/json"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"{{ $json.body.resource.repository.name }} PR {{ $json[\"key\"] }}\"\n    }\n} ",
-        "options": {}
-      },
-      "id": "bff0f7e3-c8e2-4ab1-a18f-946d544f4305",
-      "name": "Create Warden PR Link",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        600,
-        980
-      ],
-      "credentials": {
-        "jiraSoftwareCloudApi": {
-          "id": "CzvvojOOsDljc4JM",
-          "name": "Jira SW Cloud account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -537,6 +494,45 @@
         200,
         800
       ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cupixrnd.atlassian.net/rest/api/3/issue/{{ $json.key }}/remotelink",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jiraSoftwareCloudApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"{{ $json.body.resource.repository.name }} PR {{ $json[\"key\"] }}\"\n    }\n} ",
+        "options": {}
+      },
+      "id": "bff0f7e3-c8e2-4ab1-a18f-946d544f4305",
+      "name": "Create Others PR Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        980
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "CzvvojOOsDljc4JM",
+          "name": "Jira SW Cloud account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -697,754 +693,6 @@
         }
       }
     ],
-    "Jira Software": [
-      {
-        "json": {
-          "id": "48598",
-          "key": "TSLA-5214",
-          "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598",
-          "Σ Progress": {
-            "progress": 0,
-            "total": 0
-          },
-          "Σ Remaining Estimate": null,
-          "Σ Original Estimate": null,
-          "Σ Time Spent": null,
-          "Assignee": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-            "accountId": "63f2fb05fb3ac4003fa1b66b",
-            "emailAddress": "dominik.oh@cupix.com",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-            },
-            "displayName": "Dominik Oh",
-            "active": true,
-            "timeZone": "America/Chicago",
-            "accountType": "atlassian"
-          },
-          "Attachment": [],
-          "Comment": {
-            "comments": [
-              {
-                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/25971",
-                "id": "25971",
-                "author": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "body": "ES indexing 후 다시 테스트 예정",
-                "updateAuthor": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "created": "2023-06-30T03:49:50.759-0500",
-                "updated": "2023-06-30T03:49:50.759-0500",
-                "jsdPublic": true
-              },
-              {
-                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/26083",
-                "id": "26083",
-                "author": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "body": "ES indexing 을 다 하고도 동일한 문제 발생",
-                "updateAuthor": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "created": "2023-07-10T03:25:22.825-0500",
-                "updated": "2023-07-10T03:25:22.825-0500",
-                "jsdPublic": true
-              }
-            ],
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment",
-            "maxResults": 2,
-            "total": 2,
-            "startAt": 0
-          },
-          "Components": [
-            {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/component/10109",
-              "id": "10109",
-              "name": "Tesla API",
-              "description": "REST API for CupixWorks"
-            }
-          ],
-          "Created": "2023-03-08T19:26:45.407-0600",
-          "Creator": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
-            "accountId": "606d10c0c040cd0069d5b341",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
-            },
-            "displayName": "eddy.lee",
-            "active": true,
-            "timeZone": "Asia/Tokyo",
-            "accountType": "atlassian"
-          },
-          "Description": "@eddy lee editing 수정 사항 확인부탁드립니다 {{dev}}\n1. editing 중인데 state가 ready로 남아있음 editing id 442\n2. url 파라메터로 states=ready 보냈는데 state = skipped도 같이 보여짐\n\n_Issue created in Slack from a_ [_message_|https://cupix.slack.com/archives/C01A4LW8RLY/p1678324988320939?thread_ts=1678324988.320939&cid=C01A4LW8RLY]_._\n\n\n\nh1. Changes\n\nh2. Before\n\n아래 두개의 condition 중 하나만 만족되면 editing list에 보이도록 되어있었음\n\n* {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}} \n* editing_done_at 이 2주가 넘지 않았을경우\n\n\n\n이때의 문제는 해당 states가 아님에도 editing_done_at이 설정되있으면 목록에 나옴\n\n* ex) skipped라도 editing_done_at이 설정되있으면 목록에 나옴\n\nh2. After\n\n* 기본적으로는 {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}}  이 상태만 보여줌\n* 쿼리옵션에 {{states}} 를 넣는경우, 쿼리옵션의 state만 보여줌",
-          "Due date": null,
-          "Environment": null,
-          "Fix versions": [
-            {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/version/11474",
-              "id": "11474",
-              "description": "",
-              "name": "1.10.11",
-              "archived": false,
-              "released": false,
-              "releaseDate": "2023-07-11"
-            }
-          ],
-          "Linked Issues": [],
-          "Restrict to": {
-            "issuerestrictions": {},
-            "shouldDisplay": false
-          },
-          "Issue Type": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issuetype/10005",
-            "id": "10005",
-            "description": "A problem which impairs or prevents the functions of the product.",
-            "iconUrl": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium",
-            "name": "Bug",
-            "subtask": false,
-            "avatarId": 10303,
-            "hierarchyLevel": 0
-          },
-          "Labels": [],
-          "Last Viewed": "2023-07-12T22:57:01.467-0500",
-          "Priority": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/priority/3",
-            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/priorities/medium.svg",
-            "name": "Medium",
-            "id": "3"
-          },
-          "Progress": {
-            "progress": 0,
-            "total": 0
-          },
-          "Project": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/project/10114",
-            "id": "10114",
-            "key": "TSLA",
-            "name": "Tesla",
-            "projectTypeKey": "software",
-            "simplified": false,
-            "avatarUrls": {
-              "48x48": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501",
-              "24x24": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=small",
-              "16x16": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=xsmall",
-              "32x32": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=medium"
-            }
-          },
-          "Reporter": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
-            "accountId": "606d10c0c040cd0069d5b341",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
-            },
-            "displayName": "eddy.lee",
-            "active": true,
-            "timeZone": "Asia/Tokyo",
-            "accountType": "atlassian"
-          },
-          "Resolution": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/resolution/10000",
-            "id": "10000",
-            "description": "Work has been completed on this issue.",
-            "name": "Done"
-          },
-          "Resolved": "2023-06-30T01:52:55.110-0500",
-          "Security Level": null,
-          "Status": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/status/10220",
-            "description": "",
-            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/statuses/generic.png",
-            "name": "QA Open",
-            "id": "10220",
-            "statusCategory": {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/statuscategory/2",
-              "id": 2,
-              "key": "new",
-              "colorName": "blue-gray",
-              "name": "To Do"
-            }
-          },
-          "Status Category Changed": "2023-06-30T03:45:59.163-0500",
-          "Sub-tasks": [],
-          "Summary": "Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
-          "Remaining Estimate": null,
-          "Original estimate": null,
-          "Time Spent": null,
-          "Time tracking": {},
-          "Updated": "2023-07-12T22:58:25.919-0500",
-          "Affects versions": [],
-          "Votes": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/votes",
-            "votes": 0,
-            "hasVoted": false
-          },
-          "Watchers": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/watchers",
-            "watchCount": 2,
-            "isWatching": true
-          },
-          "Log Work": {
-            "startAt": 0,
-            "maxResults": 20,
-            "total": 0,
-            "worklogs": []
-          },
-          "Work Ratio": -1,
-          "Team": null,
-          "Organizations": null,
-          "Epic Link": null,
-          "Parent Link": {
-            "hasEpicLinkFieldDependency": false,
-            "showField": false,
-            "nonEditableReason": {
-              "reason": "PLUGIN_LICENSE_ERROR",
-              "message": "The Parent Link is only available to Jira Premium users."
-            }
-          },
-          "Sprint": [
-            {
-              "id": 761,
-              "name": "6/27 Backend Sprint 186",
-              "state": "closed",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-06-27T00:56:54.988Z",
-              "endDate": "2023-07-04T00:56:00.000Z",
-              "completeDate": "2023-07-04T00:58:14.586Z"
-            },
-            {
-              "id": 762,
-              "name": "7/4 Backend Sprint 187",
-              "state": "closed",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-07-04T00:58:26.521Z",
-              "endDate": "2023-07-11T00:58:00.000Z",
-              "completeDate": "2023-07-11T00:28:51.754Z"
-            },
-            {
-              "id": 763,
-              "name": "7/11 Backend Sprint 188",
-              "state": "active",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-07-11T00:31:05.098Z",
-              "endDate": "2023-07-18T00:31:00.000Z"
-            }
-          ],
-          "Rank": "0|i05jj1:",
-          "[CHART] Date of First Response": "2023-06-30T03:49:50.759-0500",
-          "[CHART] Time in Status": "3_*:*_1_*:*_87447249_*|*_10000_*:*_1_*:*_9673980677_*|*_10002_*:*_1_*:*_0_*|*_10001_*:*_1_*:*_21341826",
-          "Freshdesk Tickets": null,
-          "Story Points": 0.25,
-          "Flagged": null,
-          "Start date": null,
-          "Request Type": null,
-          "Request participants": [],
-          "Story point estimate": null,
-          "Tour Link": null,
-          "Test Account": null,
-          "Test Date": null,
-          "Test Environment": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/customFieldOption/10111",
-            "value": "Production",
-            "id": "10111"
-          },
-          "Issue color": null,
-          "Satisfaction": null,
-          "Target start": null,
-          "Target end": null,
-          "Slack Link": null,
-          "CW Reporter": null,
-          "Slack TS": null,
-          "CW board": null,
-          "QA tracking": null,
-          "TC link": null,
-          "TC id": null,
-          "Test Cases": null,
-          "Approvals": null,
-          "Satisfaction date": null,
-          "Approvers": null,
-          "Affected services": null,
-          "Time to resolution": null,
-          "Time to first response": null,
-          "Request language": null,
-          "Slack TS2": null,
-          "정보보호코드": null,
-          "정보보호 점검항목": null,
-          "Urgency": null,
-          "Impact": null,
-          "Pending reason": null,
-          "Product categorization": null,
-          "Operational categorization": null,
-          "Affected hardware": null,
-          "Severity": null,
-          "Source": null,
-          "Change type": null,
-          "Change risk": null,
-          "Change reason": null,
-          "Implementation plan": null,
-          "Backout plan": null,
-          "Test plan": null,
-          "Planned start": null,
-          "Planned end": null,
-          "Actual start": null,
-          "Actual end": null,
-          "Investigation reason": null,
-          "Root cause": null,
-          "Workaround": null,
-          "Time to close after resolution": null,
-          "Time to review normal change": null,
-          "Responders": [],
-          "Work category": null,
-          "Approver groups": null,
-          "Major incident": null,
-          "QA Description": null,
-          "QA Assignee": null,
-          "Expected Stage Release": null,
-          "Open forms": null,
-          "Submitted forms": null,
-          "Locked forms": null,
-          "Total forms": null,
-          "Compass": null,
-          "Category": null
-        }
-      }
-    ],
-    "Jira Software1": [
-      {
-        "json": {
-          "id": "48598",
-          "key": "TSLA-5214",
-          "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598",
-          "Σ Progress": {
-            "progress": 0,
-            "total": 0
-          },
-          "Σ Remaining Estimate": null,
-          "Σ Original Estimate": null,
-          "Σ Time Spent": null,
-          "Assignee": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-            "accountId": "63f2fb05fb3ac4003fa1b66b",
-            "emailAddress": "dominik.oh@cupix.com",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-            },
-            "displayName": "Dominik Oh",
-            "active": true,
-            "timeZone": "America/Chicago",
-            "accountType": "atlassian"
-          },
-          "Attachment": [],
-          "Comment": {
-            "comments": [
-              {
-                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/25971",
-                "id": "25971",
-                "author": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "body": "ES indexing 후 다시 테스트 예정",
-                "updateAuthor": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "created": "2023-06-30T03:49:50.759-0500",
-                "updated": "2023-06-30T03:49:50.759-0500",
-                "jsdPublic": true
-              },
-              {
-                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment/26083",
-                "id": "26083",
-                "author": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "body": "ES indexing 을 다 하고도 동일한 문제 발생",
-                "updateAuthor": {
-                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
-                  "accountId": "63f2fb05fb3ac4003fa1b66b",
-                  "emailAddress": "dominik.oh@cupix.com",
-                  "avatarUrls": {
-                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
-                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
-                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
-                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
-                  },
-                  "displayName": "Dominik Oh",
-                  "active": true,
-                  "timeZone": "America/Chicago",
-                  "accountType": "atlassian"
-                },
-                "created": "2023-07-10T03:25:22.825-0500",
-                "updated": "2023-07-10T03:25:22.825-0500",
-                "jsdPublic": true
-              }
-            ],
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/48598/comment",
-            "maxResults": 2,
-            "total": 2,
-            "startAt": 0
-          },
-          "Components": [
-            {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/component/10109",
-              "id": "10109",
-              "name": "Tesla API",
-              "description": "REST API for CupixWorks"
-            }
-          ],
-          "Created": "2023-03-08T19:26:45.407-0600",
-          "Creator": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
-            "accountId": "606d10c0c040cd0069d5b341",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
-            },
-            "displayName": "eddy.lee",
-            "active": true,
-            "timeZone": "Asia/Tokyo",
-            "accountType": "atlassian"
-          },
-          "Description": "@eddy lee editing 수정 사항 확인부탁드립니다 {{dev}}\n1. editing 중인데 state가 ready로 남아있음 editing id 442\n2. url 파라메터로 states=ready 보냈는데 state = skipped도 같이 보여짐\n\n_Issue created in Slack from a_ [_message_|https://cupix.slack.com/archives/C01A4LW8RLY/p1678324988320939?thread_ts=1678324988.320939&cid=C01A4LW8RLY]_._\n\n\n\nh1. Changes\n\nh2. Before\n\n아래 두개의 condition 중 하나만 만족되면 editing list에 보이도록 되어있었음\n\n* {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}} \n* editing_done_at 이 2주가 넘지 않았을경우\n\n\n\n이때의 문제는 해당 states가 아님에도 editing_done_at이 설정되있으면 목록에 나옴\n\n* ex) skipped라도 editing_done_at이 설정되있으면 목록에 나옴\n\nh2. After\n\n* 기본적으로는 {{waiting}},  {{ready}}, {{holding}}, {{editing}}, {{in_review}}, {{stopped}}  이 상태만 보여줌\n* 쿼리옵션에 {{states}} 를 넣는경우, 쿼리옵션의 state만 보여줌",
-          "Due date": null,
-          "Environment": null,
-          "Fix versions": [
-            {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/version/11474",
-              "id": "11474",
-              "description": "",
-              "name": "1.10.11",
-              "archived": false,
-              "released": false,
-              "releaseDate": "2023-07-11"
-            }
-          ],
-          "Linked Issues": [],
-          "Restrict to": {
-            "issuerestrictions": {},
-            "shouldDisplay": false
-          },
-          "Issue Type": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issuetype/10005",
-            "id": "10005",
-            "description": "A problem which impairs or prevents the functions of the product.",
-            "iconUrl": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium",
-            "name": "Bug",
-            "subtask": false,
-            "avatarId": 10303,
-            "hierarchyLevel": 0
-          },
-          "Labels": [],
-          "Last Viewed": "2023-07-12T22:57:01.467-0500",
-          "Priority": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/priority/3",
-            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/priorities/medium.svg",
-            "name": "Medium",
-            "id": "3"
-          },
-          "Progress": {
-            "progress": 0,
-            "total": 0
-          },
-          "Project": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/project/10114",
-            "id": "10114",
-            "key": "TSLA",
-            "name": "Tesla",
-            "projectTypeKey": "software",
-            "simplified": false,
-            "avatarUrls": {
-              "48x48": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501",
-              "24x24": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=small",
-              "16x16": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=xsmall",
-              "32x32": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=medium"
-            }
-          },
-          "Reporter": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=606d10c0c040cd0069d5b341",
-            "accountId": "606d10c0c040cd0069d5b341",
-            "avatarUrls": {
-              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/48",
-              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/24",
-              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/16",
-              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/606d10c0c040cd0069d5b341/cb4b0ed3-bec9-4599-a0cd-48ecd2d74261/32"
-            },
-            "displayName": "eddy.lee",
-            "active": true,
-            "timeZone": "Asia/Tokyo",
-            "accountType": "atlassian"
-          },
-          "Resolution": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/resolution/10000",
-            "id": "10000",
-            "description": "Work has been completed on this issue.",
-            "name": "Done"
-          },
-          "Resolved": "2023-06-30T01:52:55.110-0500",
-          "Security Level": null,
-          "Status": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/status/10220",
-            "description": "",
-            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/statuses/generic.png",
-            "name": "QA Open",
-            "id": "10220",
-            "statusCategory": {
-              "self": "https://cupixrnd.atlassian.net/rest/api/2/statuscategory/2",
-              "id": 2,
-              "key": "new",
-              "colorName": "blue-gray",
-              "name": "To Do"
-            }
-          },
-          "Status Category Changed": "2023-06-30T03:45:59.163-0500",
-          "Sub-tasks": [],
-          "Summary": "Editing 의 states 조건 검색 시 skipped 가 포함되는 현상",
-          "Remaining Estimate": null,
-          "Original estimate": null,
-          "Time Spent": null,
-          "Time tracking": {},
-          "Updated": "2023-07-12T22:58:25.919-0500",
-          "Affects versions": [],
-          "Votes": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/votes",
-            "votes": 0,
-            "hasVoted": false
-          },
-          "Watchers": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-5214/watchers",
-            "watchCount": 2,
-            "isWatching": true
-          },
-          "Log Work": {
-            "startAt": 0,
-            "maxResults": 20,
-            "total": 0,
-            "worklogs": []
-          },
-          "Work Ratio": -1,
-          "Team": null,
-          "Organizations": null,
-          "Epic Link": null,
-          "Parent Link": {
-            "hasEpicLinkFieldDependency": false,
-            "showField": false,
-            "nonEditableReason": {
-              "reason": "PLUGIN_LICENSE_ERROR",
-              "message": "The Parent Link is only available to Jira Premium users."
-            }
-          },
-          "Sprint": [
-            {
-              "id": 761,
-              "name": "6/27 Backend Sprint 186",
-              "state": "closed",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-06-27T00:56:54.988Z",
-              "endDate": "2023-07-04T00:56:00.000Z",
-              "completeDate": "2023-07-04T00:58:14.586Z"
-            },
-            {
-              "id": 762,
-              "name": "7/4 Backend Sprint 187",
-              "state": "closed",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-07-04T00:58:26.521Z",
-              "endDate": "2023-07-11T00:58:00.000Z",
-              "completeDate": "2023-07-11T00:28:51.754Z"
-            },
-            {
-              "id": 763,
-              "name": "7/11 Backend Sprint 188",
-              "state": "active",
-              "boardId": 14,
-              "goal": "",
-              "startDate": "2023-07-11T00:31:05.098Z",
-              "endDate": "2023-07-18T00:31:00.000Z"
-            }
-          ],
-          "Rank": "0|i05jj1:",
-          "[CHART] Date of First Response": "2023-06-30T03:49:50.759-0500",
-          "[CHART] Time in Status": "3_*:*_1_*:*_87447249_*|*_10000_*:*_1_*:*_9673980677_*|*_10002_*:*_1_*:*_0_*|*_10001_*:*_1_*:*_21341826",
-          "Freshdesk Tickets": null,
-          "Story Points": 0.25,
-          "Flagged": null,
-          "Start date": null,
-          "Request Type": null,
-          "Request participants": [],
-          "Story point estimate": null,
-          "Tour Link": null,
-          "Test Account": null,
-          "Test Date": null,
-          "Test Environment": {
-            "self": "https://cupixrnd.atlassian.net/rest/api/2/customFieldOption/10111",
-            "value": "Production",
-            "id": "10111"
-          },
-          "Issue color": null,
-          "Satisfaction": null,
-          "Target start": null,
-          "Target end": null,
-          "Slack Link": null,
-          "CW Reporter": null,
-          "Slack TS": null,
-          "CW board": null,
-          "QA tracking": null,
-          "TC link": null,
-          "TC id": null,
-          "Test Cases": null,
-          "Approvals": null,
-          "Satisfaction date": null,
-          "Approvers": null,
-          "Affected services": null,
-          "Time to resolution": null,
-          "Time to first response": null,
-          "Request language": null,
-          "Slack TS2": null,
-          "정보보호코드": null,
-          "정보보호 점검항목": null,
-          "Urgency": null,
-          "Impact": null,
-          "Pending reason": null,
-          "Product categorization": null,
-          "Operational categorization": null,
-          "Affected hardware": null,
-          "Severity": null,
-          "Source": null,
-          "Change type": null,
-          "Change risk": null,
-          "Change reason": null,
-          "Implementation plan": null,
-          "Backout plan": null,
-          "Test plan": null,
-          "Planned start": null,
-          "Planned end": null,
-          "Actual start": null,
-          "Actual end": null,
-          "Investigation reason": null,
-          "Root cause": null,
-          "Workaround": null,
-          "Time to close after resolution": null,
-          "Time to review normal change": null,
-          "Responders": [],
-          "Work category": null,
-          "Approver groups": null,
-          "Major incident": null,
-          "QA Description": null,
-          "QA Assignee": null,
-          "Expected Stage Release": null,
-          "Open forms": null,
-          "Submitted forms": null,
-          "Locked forms": null,
-          "Total forms": null,
-          "Compass": null,
-          "Category": null
-        }
-      }
-    ],
     "Webhook": [
       {
         "json": {
@@ -1597,6 +845,336 @@
           }
         }
       }
+    ],
+    "Jira Software": [
+      {
+        "json": {
+          "id": "54795",
+          "key": "TSLA-6592",
+          "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/54795",
+          "Σ Progress": {
+            "progress": 144000,
+            "total": 144000,
+            "percent": 100
+          },
+          "Σ Remaining Estimate": 0,
+          "Σ Original Estimate": null,
+          "Σ Time Spent": 144000,
+          "Assignee": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+            "accountId": "63f2fb05fb3ac4003fa1b66b",
+            "emailAddress": "dominik.oh@cupix.com",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+            },
+            "displayName": "Dominik Oh",
+            "active": true,
+            "timeZone": "America/Chicago",
+            "accountType": "atlassian"
+          },
+          "Attachment": [],
+          "Comment": {
+            "comments": [],
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/54795/comment",
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+          },
+          "Components": [],
+          "Created": "2024-01-16T23:16:49.353-0600",
+          "Creator": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+            "accountId": "63f2fb05fb3ac4003fa1b66b",
+            "emailAddress": "dominik.oh@cupix.com",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+            },
+            "displayName": "Dominik Oh",
+            "active": true,
+            "timeZone": "America/Chicago",
+            "accountType": "atlassian"
+          },
+          "Description": "n8n 테스트용 이슈입니다",
+          "Due date": null,
+          "Environment": null,
+          "Fix versions": [],
+          "Linked Issues": [],
+          "Restrict to": {
+            "issuerestrictions": {},
+            "shouldDisplay": false
+          },
+          "Issue Type": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issuetype/10002",
+            "id": "10002",
+            "description": "A task that needs to be done.",
+            "iconUrl": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+            "name": "Task",
+            "subtask": false,
+            "avatarId": 10318,
+            "hierarchyLevel": 0
+          },
+          "Labels": [],
+          "Last Viewed": "2024-01-22T21:24:19.299-0600",
+          "Parent": {
+            "id": "54774",
+            "key": "TSLA-6582",
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/54774",
+            "fields": {
+              "summary": "n8n automation",
+              "status": {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/status/10000",
+                "description": "",
+                "iconUrl": "https://cupixrnd.atlassian.net/",
+                "name": "TODO",
+                "id": "10000",
+                "statusCategory": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/statuscategory/2",
+                  "id": 2,
+                  "key": "new",
+                  "colorName": "blue-gray",
+                  "name": "To Do"
+                }
+              },
+              "priority": {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/priority/3",
+                "iconUrl": "https://cupixrnd.atlassian.net/images/icons/priorities/medium.svg",
+                "name": "Medium",
+                "id": "3"
+              },
+              "issuetype": {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/issuetype/10000",
+                "id": "10000",
+                "description": "A big user story that needs to be broken down. Created by JIRA Software - do not edit or delete.",
+                "iconUrl": "https://cupixrnd.atlassian.net/images/icons/issuetypes/epic.svg",
+                "name": "Epic",
+                "subtask": false,
+                "hierarchyLevel": 1
+              }
+            }
+          },
+          "Priority": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/priority/3",
+            "iconUrl": "https://cupixrnd.atlassian.net/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "Progress": {
+            "progress": 144000,
+            "total": 144000,
+            "percent": 100
+          },
+          "Project": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/project/10114",
+            "id": "10114",
+            "key": "TSLA",
+            "name": "Tesla",
+            "projectTypeKey": "software",
+            "simplified": false,
+            "avatarUrls": {
+              "48x48": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501",
+              "24x24": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=small",
+              "16x16": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=xsmall",
+              "32x32": "https://cupixrnd.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10501?size=medium"
+            }
+          },
+          "Reporter": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+            "accountId": "63f2fb05fb3ac4003fa1b66b",
+            "emailAddress": "dominik.oh@cupix.com",
+            "avatarUrls": {
+              "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+              "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+              "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+              "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+            },
+            "displayName": "Dominik Oh",
+            "active": true,
+            "timeZone": "America/Chicago",
+            "accountType": "atlassian"
+          },
+          "Resolution": null,
+          "Resolved": null,
+          "Security Level": null,
+          "Status": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/status/10000",
+            "description": "",
+            "iconUrl": "https://cupixrnd.atlassian.net/",
+            "name": "TODO",
+            "id": "10000",
+            "statusCategory": {
+              "self": "https://cupixrnd.atlassian.net/rest/api/2/statuscategory/2",
+              "id": 2,
+              "key": "new",
+              "colorName": "blue-gray",
+              "name": "To Do"
+            }
+          },
+          "Status Category Changed": "2024-01-16T23:16:49.807-0600",
+          "Sub-tasks": [],
+          "Summary": "[n8n] Automation test 용",
+          "Remaining Estimate": 0,
+          "Original estimate": null,
+          "Time Spent": 144000,
+          "Time tracking": {
+            "remainingEstimate": "0m",
+            "timeSpent": "1w",
+            "remainingEstimateSeconds": 0,
+            "timeSpentSeconds": 144000
+          },
+          "Updated": "2024-01-22T21:23:46.901-0600",
+          "Affects versions": [],
+          "Votes": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-6592/votes",
+            "votes": 0,
+            "hasVoted": false
+          },
+          "Watchers": {
+            "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/TSLA-6592/watchers",
+            "watchCount": 1,
+            "isWatching": true
+          },
+          "Log Work": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 1,
+            "worklogs": [
+              {
+                "self": "https://cupixrnd.atlassian.net/rest/api/2/issue/54795/worklog/10125",
+                "author": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "updateAuthor": {
+                  "self": "https://cupixrnd.atlassian.net/rest/api/2/user?accountId=63f2fb05fb3ac4003fa1b66b",
+                  "accountId": "63f2fb05fb3ac4003fa1b66b",
+                  "emailAddress": "dominik.oh@cupix.com",
+                  "avatarUrls": {
+                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/48",
+                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/24",
+                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/16",
+                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/63f2fb05fb3ac4003fa1b66b/4cc1744e-9184-4e1e-957e-c16411d62767/32"
+                  },
+                  "displayName": "Dominik Oh",
+                  "active": true,
+                  "timeZone": "America/Chicago",
+                  "accountType": "atlassian"
+                },
+                "created": "2024-01-22T21:19:17.904-0600",
+                "updated": "2024-01-22T21:19:17.904-0600",
+                "started": "2024-01-21T05:19:10.027-0600",
+                "timeSpent": "1w",
+                "timeSpentSeconds": 144000,
+                "id": "10125",
+                "issueId": "54795"
+              }
+            ]
+          },
+          "Work Ratio": -1,
+          "Team": null,
+          "Organizations": null,
+          "Epic Link": "TSLA-6582",
+          "Parent Link": {
+            "hasEpicLinkFieldDependency": false,
+            "showField": false,
+            "nonEditableReason": {
+              "reason": "PLUGIN_LICENSE_ERROR",
+              "message": "The Parent Link is only available to Jira Premium users."
+            }
+          },
+          "Sprint": null,
+          "Rank": "0|i0651w:",
+          "[CHART] Date of First Response": null,
+          "[CHART] Time in Status": null,
+          "Freshdesk Tickets": null,
+          "Story Points": 0,
+          "Flagged": null,
+          "Start date": null,
+          "Request Type": null,
+          "Request participants": [],
+          "Story point estimate": null,
+          "Tour Link": null,
+          "Issue color": null,
+          "Satisfaction": null,
+          "Target start": null,
+          "Target end": null,
+          "Slack Link": null,
+          "CW Reporter": null,
+          "Slack TS": null,
+          "CW board": null,
+          "QA tracking": null,
+          "TC link": null,
+          "TC id": null,
+          "Test Cases": null,
+          "Approvals": null,
+          "Satisfaction date": null,
+          "Approvers": null,
+          "Affected services": null,
+          "Time to resolution": null,
+          "Time to first response": null,
+          "Request language": null,
+          "Slack TS2": null,
+          "정보보호코드": null,
+          "정보보호 점검항목": null,
+          "Urgency": null,
+          "Impact": null,
+          "Pending reason": null,
+          "Product categorization": null,
+          "Operational categorization": null,
+          "Affected hardware": null,
+          "Severity": null,
+          "Source": null,
+          "Change type": null,
+          "Change risk": null,
+          "Change reason": null,
+          "Implementation plan": null,
+          "Backout plan": null,
+          "Test plan": null,
+          "Planned start": null,
+          "Planned end": null,
+          "Actual start": null,
+          "Actual end": null,
+          "Investigation reason": null,
+          "Root cause": null,
+          "Workaround": null,
+          "Time to close after resolution": null,
+          "Time to review normal change": null,
+          "Responders": [],
+          "Work category": null,
+          "Approver groups": null,
+          "Major incident": null,
+          "QA Description": null,
+          "QA Assignee": null,
+          "Expected Stage Release": null,
+          "Open forms": null,
+          "Submitted forms": null,
+          "Locked forms": null,
+          "Total forms": null,
+          "Category": null,
+          "Atlas project key": null,
+          "Atlas project status": null,
+          "QA Note": null
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
     ]
   },
   "settings": {
@@ -1605,6 +1183,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-01-19T03:30:05.000Z",
-  "versionId": "746aa261-22fa-4767-be17-00292a4d46e5"
+  "updatedAt": "2024-01-23T03:28:31.000Z",
+  "versionId": "0ed05f54-4fde-45ed-9904-018714c0e04a"
 }
