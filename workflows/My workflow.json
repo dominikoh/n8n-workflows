@@ -1,0 +1,42 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2024-03-20T04:17:43.074Z",
+  "id": "mor5Pcnrzqh4DLbN",
+  "meta": null,
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "jira:version_released"
+        ],
+        "additionalFields": {}
+      },
+      "id": "c1e31436-da97-4054-a9a8-5194f27123f5",
+      "name": "Jira Trigger",
+      "type": "n8n-nodes-base.jiraTrigger",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        540
+      ],
+      "webhookId": "69601b91-60b1-4f01-9d59-948c098e2d6c",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "CzvvojOOsDljc4JM",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-03-20T04:17:43.074Z",
+  "versionId": "50b82e6a-0ada-4239-b052-3a754ecffc8f"
+}
