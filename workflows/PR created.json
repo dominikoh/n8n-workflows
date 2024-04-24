@@ -52,7 +52,7 @@
       "main": [
         [
           {
-            "node": "Check TSLA started",
+            "node": "validate PR title (TSLA started)",
             "type": "main",
             "index": 0
           }
@@ -63,23 +63,7 @@
       "main": [
         [
           {
-            "node": "filter ticket status",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Set tag on PR",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "filter ticket status": {
-      "main": [
-        [
-          {
-            "node": "Move to InReview",
             "type": "main",
             "index": 0
           }
@@ -119,7 +103,7 @@
         ]
       ]
     },
-    "Check TSLA started": {
+    "validate PR title (TSLA started)": {
       "main": [
         [
           {
@@ -220,34 +204,6 @@
     },
     {
       "parameters": {
-        "operation": "update",
-        "issueKey": "={{ $('Switch').item.json.key }}",
-        "updateFields": {
-          "statusId": {
-            "__rl": true,
-            "value": "41",
-            "mode": "list",
-            "cachedResultName": "In Review"
-          }
-        }
-      },
-      "id": "26255dcb-45e3-490b-aed9-38ec211d9d9f",
-      "name": "Move to InReview",
-      "type": "n8n-nodes-base.jira",
-      "typeVersion": 1,
-      "position": [
-        1220,
-        340
-      ],
-      "credentials": {
-        "jiraSoftwareCloudApi": {
-          "id": "CzvvojOOsDljc4JM",
-          "name": "Jira SW Cloud account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "get",
         "issueKey": "={{ $('Extract Key').item.json.key }}",
         "simplifyOutput": true,
@@ -267,37 +223,6 @@
           "name": "Jira SW Cloud account"
         }
       }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "string": [
-            {
-              "value1": "={{ $json.Status.name }}",
-              "operation": "notContains",
-              "value2": "Done"
-            },
-            {
-              "value1": "={{ $json.Status.name }} ",
-              "operation": "notContains",
-              "value2": "REVIEW"
-            },
-            {
-              "value1": "={{ $json.Status.name }} ",
-              "operation": "notContains",
-              "value2": "QA"
-            }
-          ]
-        }
-      },
-      "id": "5e0bb93b-768f-410c-ba1b-9963d0ac68e3",
-      "name": "filter ticket status",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 1,
-      "position": [
-        1000,
-        360
-      ]
     },
     {
       "parameters": {
@@ -465,38 +390,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "5bcd124f-1b4c-4f04-b902-13e980ce778e",
-              "leftValue": "={{ $json.key }}",
-              "rightValue": "TSLA",
-              "operator": {
-                "type": "string",
-                "operation": "startsWith"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "f9ffd56b-fa5f-48b0-b860-054e8aa89cfc",
-      "name": "Check TSLA started",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        200,
-        800
-      ]
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "=https://cupixrnd.atlassian.net/rest/api/3/issue/{{ $json.key }}/remotelink",
         "authentication": "predefinedCredentialType",
@@ -533,6 +426,38 @@
           "name": "Jira SW Cloud account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "5bcd124f-1b4c-4f04-b902-13e980ce778e",
+              "leftValue": "={{ $json.key }}",
+              "rightValue": "TSLA",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f9ffd56b-fa5f-48b0-b860-054e8aa89cfc",
+      "name": "validate PR title (TSLA started)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        200,
+        800
+      ]
     }
   ],
   "pinData": {
@@ -1183,6 +1108,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-01-23T03:28:31.000Z",
-  "versionId": "0ed05f54-4fde-45ed-9904-018714c0e04a"
+  "updatedAt": "2024-04-24T01:27:45.000Z",
+  "versionId": "9cb53f50-1c94-4680-8e4a-a0b6873a63f1"
 }
