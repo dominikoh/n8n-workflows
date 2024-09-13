@@ -541,7 +541,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"fields\": {\n    \"customfield_10268\": [\"{{ $json.Repositories.concat($('Set').item.json.repo).unique().join(\"\\\",\\\"\") }}\"]\n }\n}",
+        "jsonBody": "={\n  \"fields\": {\n    \"customfield_10268\": [\"{{ [].concat($json.Repositories).concat($('Set').item.json.repo).unique().filter(v => v !== null).join(\"\\\",\\\"\") }}\"]\n }\n}",
         "options": {
           "response": {
             "response": {
@@ -730,6 +730,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-09-12T21:48:24.000Z",
-  "versionId": "22efc1cf-d381-43a5-be5a-5891c50fed50"
+  "updatedAt": "2024-09-13T08:28:10.000Z",
+  "versionId": "9ec830d0-ffa4-445e-88f8-2a81aa525a5c"
 }
