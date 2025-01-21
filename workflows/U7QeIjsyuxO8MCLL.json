@@ -273,7 +273,7 @@
         "method": "POST",
         "url": "=https://dev.azure.com/cupix/{{ $json.body.resource.repository.project.name }}/_apis/git/repositories/{{ $json.body.resource.repository.id }}/pullRequests?api-version=6.1-preview.1",
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
+        "genericAuthType": "httpBasicAuth",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -310,6 +310,10 @@
         "httpHeaderAuth": {
           "id": "IyKMeXPtCTvbSXxm",
           "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
         }
       },
       "onError": "continueRegularOutput"
@@ -319,7 +323,7 @@
         "method": "PATCH",
         "url": "=https://dev.azure.com/cupix/{{ $json.repository.project.name }}/_apis/git/repositories/{{ $json.repository.id }}/pullRequests/{{ $json.pullRequestId }}/?api-version=6.1-preview.1",
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
+        "genericAuthType": "httpBasicAuth",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -348,6 +352,10 @@
         "httpHeaderAuth": {
           "id": "IyKMeXPtCTvbSXxm",
           "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
         }
       },
       "onError": "continueRegularOutput"
@@ -477,7 +485,7 @@
         "method": "POST",
         "url": "=https://dev.azure.com/cupix/{{ $('Extract Key').item.json.body.resource.repository.project.name }}/_apis/git/repositories/{{ $('Extract Key').item.json.body.resource.repository.id }}/pullRequests/{{ $('Extract Key').item.json.body.resource.pullRequestId }}/labels?api-version=6.1-preview.1 ",
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
+        "genericAuthType": "httpBasicAuth",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -501,6 +509,10 @@
         "httpHeaderAuth": {
           "id": "IyKMeXPtCTvbSXxm",
           "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
         }
       }
     },
@@ -732,6 +744,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-21T04:25:43.000Z",
-  "versionId": "e04d01d0-df5a-40d7-8164-d6501ec28538"
+  "updatedAt": "2025-01-21T07:28:23.000Z",
+  "versionId": "4bfc6d5f-b6a9-498e-aab9-7949a1ddb4c5"
 }
