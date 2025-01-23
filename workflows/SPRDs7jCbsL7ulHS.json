@@ -1,17 +1,6 @@
 {
   "active": true,
   "connections": {
-    "Agent": {
-      "main": [
-        [
-          {
-            "node": "Slack",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
@@ -23,22 +12,11 @@
         ]
       ]
     },
-    "Wikipedia": {
-      "ai_tool": [
-        [
-          {
-            "node": "Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Is user message": {
       "main": [
         [
           {
-            "node": "Agent",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -56,7 +34,7 @@
       "ai_memory": [
         [
           {
-            "node": "Agent",
+            "node": "AI Agent",
             "type": "ai_memory",
             "index": 0
           }
@@ -67,8 +45,41 @@
       "ai_languageModel": [
         [
           {
-            "node": "Agent",
+            "node": "AI Agent",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -100,11 +111,11 @@
     },
     {
       "parameters": {
-        "select": "user",
-        "user": {
+        "select": "channel",
+        "channelId": {
           "__rl": true,
-          "mode": "id",
-          "value": "={{ $('Webhook').item.json.body.event.user }}"
+          "value": "={{ $('Webhook').item.json.body.channel_id }}",
+          "mode": "id"
         },
         "text": "={{ $json.output }}",
         "otherOptions": {}
@@ -127,25 +138,13 @@
     },
     {
       "parameters": {
-        "sessionKey": "={{ $('Webhook').item.json.body.event.channel }}__gilfoyle",
-        "contextWindowLength": 30
+        "sessionKey": "={{ $('Webhook').item.json.body.channel_id }}"
       },
       "id": "bde7ff00-10dc-4760-b052-f545d7d4be72",
       "name": "Window Buffer Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "position": [
         760,
-        820
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {},
-      "id": "cc047024-a198-4778-98a7-0e240448e7cd",
-      "name": "Wikipedia",
-      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
-      "position": [
-        1060,
         820
       ],
       "typeVersion": 1
@@ -258,22 +257,6 @@
     },
     {
       "parameters": {
-        "text": "={{ $json.body.event.text }}",
-        "options": {
-          "systemMessage": "You are Gilfoyle from Silicon Valley TV show. Amplify your bluntness and cynicism, tolerating zero incompetence. Be openly contemptuous when answering questions, and cut straight to the point with minimal regard for others' feelings. Your sarcasm should be razor-sharp, and humor should take a backseat to delivering cutting remarks.\\nDo your best to answer the questions. Feel free to use any tools available to look up relevant information, only if necessary. "
-        }
-      },
-      "id": "fb37327a-b178-4009-a2d0-b82e41752d20",
-      "name": "Agent",
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "position": [
-        580,
-        460
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
         "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
         "options": {}
       },
@@ -291,15 +274,113 @@
           "name": "AWS account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 2.3,
+      "position": [
+        1000,
+        820
+      ],
+      "id": "3b8b69f1-d24d-49a3-a612-0686ed789abf",
+      "name": "Slack1",
+      "webhookId": "ff2191a4-1ac7-4620-84a0-6cf674ef71d8",
+      "credentials": {
+        "slackApi": {
+          "id": "uWwqOgV5qLjTeVF4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        600,
+        460
+      ],
+      "id": "2b2ee3b3-b0c6-4e58-9a63-ea78a879e8b3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        820
+      ],
+      "id": "87c003f0-ad58-4783-9e08-8c0b9c4156a7",
+      "name": "SerpAPI",
+      "credentials": {
+        "serpApi": {
+          "id": "szxogdE67lwgcUpQ",
+          "name": "SerpAPI account"
+        }
+      }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.cupix.com",
+            "user-agent": "Slackbot 1.0 (+https://api.slack.com/robots)",
+            "content-length": "426",
+            "accept": "application/json,*/*",
+            "accept-encoding": "gzip,deflate",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "98.81.136.138",
+            "x-forwarded-host": "n8n.cupix.com",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e1fea156aeca",
+            "x-real-ip": "98.81.136.138",
+            "x-slack-request-timestamp": "1737610778",
+            "x-slack-signature": "v0=60ea2a10a30211f250bc0cccb4f336dca9c124bae1da843fdd56b27034f3c04a"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "token": "VtlLedbNqYxyq6gF9h6aKF2L",
+            "team_id": "T0A84RHMM",
+            "team_domain": "cupix",
+            "channel_id": "C089BCWCE22",
+            "channel_name": "n8n-test",
+            "user_id": "U04QB2DJWCT",
+            "user_name": "dominik.oh",
+            "command": "/n8n",
+            "text": "what is the aws bedrock",
+            "api_app_id": "A06C07TP19Q",
+            "is_enterprise_install": "false",
+            "response_url": "https://hooks.slack.com/commands/T0A84RHMM/8330220918822/H0Wv9XGR4ine4aM06Yr3cZOK",
+            "trigger_id": "8334004927621.10276867735.2ce1f98bf2c5ad0890cdd40bd4f672c1"
+          },
+          "webhookUrl": "https://n8n.cupix.com/webhook/28b84545-96aa-42f5-990b-aa8783a320ca",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-21T08:36:20.000Z",
-  "versionId": "c7ab08d2-821e-4534-a768-a8366996b1d6"
+  "updatedAt": "2025-01-23T06:08:44.000Z",
+  "versionId": "2fdc810a-5e60-4321-b532-79b28acc7090"
 }
