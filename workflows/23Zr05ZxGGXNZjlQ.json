@@ -1,0 +1,208 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-24T08:09:03.106Z",
+  "id": "23Zr05ZxGGXNZjlQ",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "amaranth calendar",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        -160
+      ],
+      "id": "f46abeb2-3ae4-4724-bc61-f61e9b7ccc2a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gw.cupix.com/schres/sc111A03",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "={{ $json['Content-Type'] }}"
+            },
+            {
+              "name": "authorization",
+              "value": "={{ $json.authorization }}"
+            },
+            {
+              "name": "wehago-sign",
+              "value": "={{ $json['wehago-sign'] }}"
+            },
+            {
+              "name": "transaction-id",
+              "value": "={{ $json['transaction-id'] }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n    \"companyInfo\": {\n        \"compSeq\":\"1000\",\n        \"groupSeq\":\"gcmsAmaranth37665\",\n        \"deptSeq\":\"2018\",\n        \"emailAddr\":\"andrew.ji\",\n        \"emailDomain\":\"cupix.com\"\n    },\n    \"startDate\":\"20250101\",\n    \"endDate\":\"20250630\",\n    \"mySchYn\":\"N\",\n    \"calList\":[],\n    \"tcalList\":[],\n    \"acalList\":[\"59\"],\n    \"searchEmpSeq\":\"\",\n    \"excelYn\":null,\n    \"abUID\":\"\",\n    \"sortDate\":\"Y\",\n    \"langCode\":\"kr\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        20,
+        -180
+      ],
+      "id": "9349bf7c-ec0f-4f99-a819-81ce1a741ad7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "882f051c-b1cd-43df-a91e-2735d45bf452",
+              "leftValue": "={{ $json.resultMsg }}",
+              "rightValue": "SUCCESS",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        260,
+        -180
+      ],
+      "id": "78e7fdf0-cd32-4660-99a4-fd9b6bf89e0d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"Content-Type\": \"application/json\",\n  \"authorization\": \"Bearer gcmsAmaranth37665|2071|22UMBOMsrrZwjfe34wA84FyASab80c\",\n  \"wehago-sign\": \"nCcOIYeH4pmMJrozbHB970B72Yob6C0jc9sszxT914I=\",\n  \"transaction-id\": \"99c47ba81b43595308bfc3a674969378\",\n  \"timestamp\": 1737706456\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -200,
+        -180
+      ],
+      "id": "f21cfedb-9d97-4d7a-8e1f-b50ad8ed5d04",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "c_151f59d9e273358e134b4333cdd838d3f326cc310d3480b85ca67b62fde7b0ce@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "휴가(Amaranth)"
+        },
+        "start": "=2025-01-29T00:00:00",
+        "end": "2025-01-29T18:00:00",
+        "useDefaultReminders": false,
+        "additionalFields": {
+          "allday": "yes",
+          "summary": "={{ $json.resultData.resultList[0].schTitle }} {{ $json.resultData.resultList[0].partName }}",
+          "visibility": "default"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        -260
+      ],
+      "id": "bb9b5b5b-1fd9-4474-a2c4-5adff03d448f",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "Ad9NdUur3xNxfM0e",
+          "name": "Google Calendar account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-24T09:00:12.000Z",
+  "versionId": "52be39f1-4a63-49a4-9028-1b97a7984a23"
+}
