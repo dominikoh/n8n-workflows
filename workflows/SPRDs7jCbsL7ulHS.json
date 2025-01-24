@@ -1,11 +1,11 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Webhook": {
       "main": [
         [
           {
-            "node": "Is user message",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -330,6 +330,21 @@
           "name": "SerpAPI account"
         }
       }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"challenge\": \"{{ $json.body.challenge }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        720
+      ],
+      "id": "f2a43ddd-4fb0-4c97-a813-8e7e26505083",
+      "name": "Respond to Webhook"
     }
   ],
   "pinData": {
@@ -339,35 +354,25 @@
           "headers": {
             "host": "n8n.cupix.com",
             "user-agent": "Slackbot 1.0 (+https://api.slack.com/robots)",
-            "content-length": "426",
-            "accept": "application/json,*/*",
+            "content-length": "129",
+            "accept": "*/*",
             "accept-encoding": "gzip,deflate",
-            "content-type": "application/x-www-form-urlencoded",
-            "x-forwarded-for": "98.81.136.138",
+            "content-type": "application/json",
+            "x-forwarded-for": "44.220.71.80",
             "x-forwarded-host": "n8n.cupix.com",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "e1fea156aeca",
-            "x-real-ip": "98.81.136.138",
-            "x-slack-request-timestamp": "1737610778",
-            "x-slack-signature": "v0=60ea2a10a30211f250bc0cccb4f336dca9c124bae1da843fdd56b27034f3c04a"
+            "x-real-ip": "44.220.71.80",
+            "x-slack-request-timestamp": "1737695384",
+            "x-slack-signature": "v0=0abc8f5062d70b781d42a791cdaf0a32f690ba93dc984d12f55a6eb6f4cb2be6"
           },
           "params": {},
           "query": {},
           "body": {
             "token": "VtlLedbNqYxyq6gF9h6aKF2L",
-            "team_id": "T0A84RHMM",
-            "team_domain": "cupix",
-            "channel_id": "C089BCWCE22",
-            "channel_name": "n8n-test",
-            "user_id": "U04QB2DJWCT",
-            "user_name": "dominik.oh",
-            "command": "/n8n",
-            "text": "what is the aws bedrock",
-            "api_app_id": "A06C07TP19Q",
-            "is_enterprise_install": "false",
-            "response_url": "https://hooks.slack.com/commands/T0A84RHMM/8330220918822/H0Wv9XGR4ine4aM06Yr3cZOK",
-            "trigger_id": "8334004927621.10276867735.2ce1f98bf2c5ad0890cdd40bd4f672c1"
+            "challenge": "GbFG1c3FVbnSc2n0IiPwIgrRg4IDp79NF6LH62Q8y6D4357eeLSS",
+            "type": "url_verification"
           },
           "webhookUrl": "https://n8n.cupix.com/webhook/28b84545-96aa-42f5-990b-aa8783a320ca",
           "executionMode": "production"
@@ -381,6 +386,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-23T06:08:44.000Z",
-  "versionId": "2fdc810a-5e60-4321-b532-79b28acc7090"
+  "updatedAt": "2025-01-24T08:38:51.000Z",
+  "versionId": "6ac34d40-8d7a-48a5-892b-da133d191ab4"
 }
