@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Set vars": {
       "main": [
@@ -1113,6 +1113,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-24T08:39:53.000Z",
+  "updatedAt": "2025-02-06T14:48:43.000Z",
   "versionId": "7c29e12c-8284-4d4f-bd65-e42d583370f4"
 }
