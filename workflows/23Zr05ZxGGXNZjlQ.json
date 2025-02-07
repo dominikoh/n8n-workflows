@@ -8,6 +8,11 @@
             "node": "Edit Fields",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Puppeteer",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -197,16 +202,30 @@
     },
     {
       "parameters": {
-        "jsCode": "const puppeteer = require('puppeteer');\n\nconst delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));\n\nasync function automate() {\n  const browser = await puppeteer.launch({\n    headless: false,\n    args: [\n      '--no-sandbox',\n      '--disable-setuid-sandbox',\n      '--disable-dev-shm-usage',\n      '--disable-accelerated-2d-canvas',\n      '--disable-gpu'\n    ],\n    defaultViewport: null\n  });\n  const page = await browser.newPage();\n\n  await page.setRequestInterception(true);\n\n  // 요청 모니터링\n  page.on('request', request => {\n    if (request.url().includes('/gw999A01')) {\n      console.log('Request:', {\n        url: request.url(),\n        method: request.method(),\n        resourceType: request.resourceType(),\n        headers: request.headers()\n      });\n    }\n    request.continue();\n  });\n\n  // page.on('response', async response => {\n  //   if (response.url().includes('/gw999A01')) {\n  //     try {\n  //       const data = await response.json();\n  //       console.log('Response Data:', data);\n  //     } catch (e) {\n  //       console.log('Not JSON response');\n  //     }\n  //   }\n  // });\n\n\n  const userId = \"andrew.ji\";\n  const userPw = \"pw\";\n  const url = \"https://gw.cupix.com/\";\n\n  // 페이지 이동\n  await page.goto(url);\n  await delay(5000); // time.sleep(5) 대체\n\n  // ID 입력\n  const idSelector = \"#reqLoginId\";\n  await page.waitForSelector(idSelector);\n  await page.type(idSelector, userId);\n\n  // 다음 버튼 클릭\n  const nextButtonSelector = \"#wrap > div.logintype-A > div.loginBox.animated1s.slideInRight > div > div:nth-child(2) > div:nth-child(4) > div.loginBtn.h-box > div > button\";\n  await page.waitForSelector(nextButtonSelector);\n  await page.click(nextButtonSelector);\n\n  await delay(5000); // time.sleep(5) 대체\n\n  // 비밀번호 입력\n  const pwInputSelector = \"#reqLoginPw\";\n  await page.waitForSelector(pwInputSelector);\n  await page.type(pwInputSelector, userPw);\n\n  // 로그인 버튼 클릭\n  const loginInputSelector = \"#wrap > div.logintype-A > div.loginBox.animated1s.slideInRight > div > div:nth-child(2) > div:nth-child(4) > div.loginBtn.h-box > div > button\";\n  await page.waitForSelector(loginInputSelector);\n  await page.click(loginInputSelector);\n\n  console.log(\"Login Success\");\n\n\n  // // 캘린더 버튼 클릭\n  // const calendarButtonSelector = \"#tangoMenu > div > ul > li.CL_ecoIcon01 > div > div.tooltipDiv\";\n  // await page.waitForSelector(calendarButtonSelector);\n  // await page.click(calendarButtonSelector);\n\n  // await delay(5000);\n\n  // // 6번 반복하여 CSV 다운로드 및 다음 달 이동\n  // for (let i = 0; i < 6; i++) {\n  //   const csvDownloadButtonSelector = \"div > div.OBTPageContainer_header__3cYmR > div.OBTPageContainer_mainButtons__VlcMh > div:nth-child(1) > button\";\n  //   await page.waitForSelector(csvDownloadButtonSelector);\n  //   await page.click(csvDownloadButtonSelector);\n\n  //   await delay(2000);\n\n  //   const nextMonthButtonSelector = \"#UEA_calendar > div > div.fc.fc-ltr.fc-unthemed > div.fc-toolbar.fc-header-toolbar > div.fc-left > div > button.fc-next-button.fc-button.fc-button-primary\";\n  //   await page.waitForSelector(nextMonthButtonSelector);\n  //   await page.click(nextMonthButtonSelector);\n  // }\n\n  // 브라우저 종료\n  // await browser.close();\n}\n\n// 함수 실행\nautomate().catch(console.error);"
+        "url": "https://gw.cupix.com/",
+        "options": {
+          "launchArguments": {
+            "args": [
+              {
+                "arg": "no-sandbox"
+              },
+              {
+                "arg": "disable-setuid-sandbox"
+              }
+            ]
+          },
+          "headless": true,
+          "shell": true
+        }
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "n8n-nodes-puppeteer.puppeteer",
+      "typeVersion": 1,
       "position": [
-        -80,
-        -380
+        -200,
+        -440
       ],
-      "id": "8d93d027-b7f2-47fa-badc-e12cb1aed04d",
-      "name": "puppeteer"
+      "id": "b5bd1bab-9cff-443f-8ea7-3a1d3b52fc1c",
+      "name": "Puppeteer"
     }
   ],
   "pinData": {},
@@ -216,6 +235,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-02-05T04:32:30.000Z",
-  "versionId": "905db65d-8c3f-4b28-bdb7-cc938f579346"
+  "updatedAt": "2025-02-07T05:00:59.000Z",
+  "versionId": "3da708f7-dfd9-4ebe-8423-6a9cd000497b"
 }
