@@ -1,0 +1,597 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Extract Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Key": {
+      "main": [
+        [
+          {
+            "node": "validate PR title (TSLA started)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "validate PR title (TSLA started)": {
+      "main": [
+        [
+          {
+            "node": "Creat PR Link",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "get Isse Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If target is release branch": {
+      "main": [
+        [
+          {
+            "node": "release to master",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "release to deploy/qa",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "master to develop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create PR": {
+      "main": [
+        [
+          {
+            "node": "set autoComplete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "master to develop": {
+      "main": [
+        [
+          {
+            "node": "Create PR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "release to master": {
+      "main": [
+        [
+          {
+            "node": "Create PR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "release to deploy/qa": {
+      "main": [
+        [
+          {
+            "node": "Create PR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get Isse Info": {
+      "main": [
+        [
+          {
+            "node": "Set tag on PR",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Repository Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-03-19T04:13:59.817Z",
+  "id": "Os1I0fsOEtmE87wp",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "PR created - Algorithm",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8e8fd9de-5cc5-43a4-8986-5237695d8a89",
+        "options": {}
+      },
+      "id": "38a79ff0-800b-4fb7-8676-0fcf77e79c39",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -1320,
+        460
+      ],
+      "webhookId": "8e8fd9de-5cc5-43a4-8986-5237695d8a89"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "url",
+              "value": "={{ $json.body.resource._links.web.href }}"
+            },
+            {
+              "name": "title",
+              "value": "={{ $json.body.resource.title }}"
+            },
+            {
+              "name": "targetBranch",
+              "value": "={{ $json.body.resource.targetRefName }}"
+            },
+            {
+              "name": "repo",
+              "value": "={{ $json.body.resource.repository.project.name }}/{{ $json.body.resource.repository.name }}"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "ef772756-d46c-4ee7-b4d8-5d2d38de202d",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1100,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract key from title. ex) \"TSLA-1234 new pull request\" -> \"TSLA-1234\"\nvar title = $input.item.json.title;\nvar key = title.split(' ')[0];\n$input.item.json.key = key;\n$input.item.json.cleanTargetBranch = $input.item.json.targetBranch.replace('refs/heads/', '');\n\nreturn $input.item;"
+      },
+      "id": "b0f34621-9af9-4269-b101-f3450b30c1da",
+      "name": "Extract Key",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "5bcd124f-1b4c-4f04-b902-13e980ce778e",
+              "leftValue": "={{ $json.key }}",
+              "rightValue": "TSLA",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f9cc2ad1-4cad-43ff-9d2c-269314026cf1",
+      "name": "validate PR title (TSLA started)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        460
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "86fc1054-7bb4-42b4-9ea8-2109c106a9d1",
+              "leftValue": "={{ $json.cleanTargetBranch }}",
+              "rightValue": "release",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "53c5940b-c390-46d6-9738-ae2228654512",
+      "name": "If target is release branch",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://dev.azure.com/cupix/{{ $json.body.resource.repository.project.name }}/_apis/git/repositories/{{ $json.body.resource.repository.id }}/pullRequests?api-version=6.1-preview.1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "=Merge {{ $json.branch_from }} into {{ $json.branch_to }} "
+            },
+            {
+              "name": "sourceRefName",
+              "value": "=refs/heads/{{ $json.branch_from }}"
+            },
+            {
+              "name": "targetRefName",
+              "value": "=refs/heads/{{ $json.branch_to }}"
+            },
+            {
+              "name": "description",
+              "value": "Automatically created by n8n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71d329d6-1d47-45ca-b4cf-8277eaf17e68",
+      "name": "Create PR",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        180,
+        1100
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IyKMeXPtCTvbSXxm",
+          "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://dev.azure.com/cupix/{{ $json.repository.project.name }}/_apis/git/repositories/{{ $json.repository.id }}/pullRequests/{{ $json.pullRequestId }}/?api-version=6.1-preview.1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "reviewers",
+              "value": "=[{\"id\":  {{ $('Set').item.json.body.resource.createdBy.id }} }]"
+            },
+            {
+              "name": "AutoCompleteSetBy",
+              "value": "={\"id\":  \"{{ $('Set').item.json.body.resource.createdBy.id }}\" }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a535dada-360d-4172-8b1c-afdaceb37743",
+      "name": "set autoComplete",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        400,
+        1100
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IyKMeXPtCTvbSXxm",
+          "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "branch_from",
+              "value": "master"
+            },
+            {
+              "name": "branch_to",
+              "value": "develop"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "e5fa10ec-523d-4853-97e0-a656fe78447e",
+      "name": "master to develop",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "branch_from",
+              "value": "={{ $('Extract Key').item.json.cleanTargetBranch }}"
+            },
+            {
+              "name": "branch_to",
+              "value": "master"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "3789adf4-b113-4b71-8bc1-03b3bbdb2bc2",
+      "name": "release to master",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "branch_from",
+              "value": "={{ $('Extract Key').item.json.cleanTargetBranch }}"
+            },
+            {
+              "name": "branch_to",
+              "value": "deploy/qa"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "19e1b658-0841-4765-aa66-e2a8f4f92e4d",
+      "name": "release to deploy/qa",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cupixrnd.atlassian.net/rest/api/3/issue/{{ $json.key }}/remotelink",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jiraSoftwareCloudApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"object\": {\n        \"url\":\"{{ $json[\"url\"] }}\",\n        \"title\":\"PR {{ $json.repo }} to {{ $json.cleanTargetBranch }}\"\n    }\n}",
+        "options": {}
+      },
+      "id": "f5328783-ccd8-4f53-aeb4-b9333ccd8415",
+      "name": "Creat PR Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -240,
+        520
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "xaPMQws5TL30rVV5",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://dev.azure.com/cupix/{{ $('Extract Key').item.json.body.resource.repository.project.name }}/_apis/git/repositories/{{ $('Extract Key').item.json.body.resource.repository.id }}/pullRequests/{{ $('Extract Key').item.json.body.resource.pullRequestId }}/labels?api-version=6.1-preview.1 ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json[\"Fix versions\"][0].name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "632d0ad1-dc3a-4338-a9b9-e4e80ecc1e0f",
+      "name": "Set tag on PR",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IyKMeXPtCTvbSXxm",
+          "name": "Azure devops"
+        },
+        "httpBasicAuth": {
+          "id": "AxZYhyqhXtp6ocy1",
+          "name": "Azure Devops"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "={{ $('Extract Key').item.json.key }}",
+        "simplifyOutput": true,
+        "additionalFields": {}
+      },
+      "id": "e6ad32bf-dbea-4ae1-9074-fcbb9d18acfb",
+      "name": "get Isse Info",
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        100
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "xaPMQws5TL30rVV5",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://cupixrnd.atlassian.net/rest/api/2/issue/{{ $json.key }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jiraSoftwareCloudApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"fields\": {\n    \"customfield_10268\": [\"{{ [].concat($json.Repositories).concat($('Set').item.json.repo).unique().filter(v => v !== null).join(\"\\\",\\\"\") }}\"]\n }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "4cb2c078-6cae-461b-9d30-8eaa0a8a6556",
+      "name": "Set Repository Field",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        0,
+        200
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "xaPMQws5TL30rVV5",
+          "name": "Jira SW Cloud account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-03-19T05:19:21.000Z",
+  "versionId": "a0fbff5d-e5ec-4c25-9761-31c1d571f72e"
+}
