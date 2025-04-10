@@ -1,0 +1,367 @@
+{
+  "active": true,
+  "connections": {
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS Bedrock Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-10T08:53:00.930Z",
+  "id": "8hEqvmqZQPc76iBd",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Cupix Slack Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#n8n-test",
+          "mode": "name"
+        },
+        "text": "={{ $json.output }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('Slack Trigger').item.json.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        580,
+        0
+      ],
+      "id": "eaba0692-f987-444c-adfe-1f430effe1a6",
+      "name": "Slack",
+      "webhookId": "80e3e500-1810-478e-8157-b32f361f801b",
+      "credentials": {
+        "slackApi": {
+          "id": "uWwqOgV5qLjTeVF4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "trigger": [
+          "app_mention"
+        ],
+        "channelId": {
+          "__rl": true,
+          "value": "C089BCWCE22",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        -520,
+        0
+      ],
+      "id": "849337e1-96bb-4324-83e3-9af5db1cddc6",
+      "name": "Slack Trigger",
+      "webhookId": "27a44de4-7c13-4862-8c4b-e8c9c2f30c91",
+      "credentials": {
+        "slackApi": {
+          "id": "uWwqOgV5qLjTeVF4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        180,
+        0
+      ],
+      "id": "e56c8874-656b-473f-8685-ae3cf9b087d1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        280,
+        220
+      ],
+      "id": "4a027dd7-5b9f-4320-be6b-6123f3ed8b0d",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAwsBedrock",
+      "typeVersion": 1,
+      "position": [
+        100,
+        220
+      ],
+      "id": "70c02077-04dc-4a08-bd71-34cc40cf6242",
+      "name": "AWS Bedrock Chat Model",
+      "credentials": {
+        "aws": {
+          "id": "F8mVhkugtEQICSk0",
+          "name": "AWS account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        460,
+        240
+      ],
+      "id": "a7349a35-85b9-482f-bb3e-0543dac79a1a",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5c19b0c1-a9d1-4d6b-845a-8af4949ba7df",
+              "name": "chatInput",
+              "value": "=답변은 한국말로 해줘. {{ $json.blocks[0].elements[0].elements[1].text }}",
+              "type": "string"
+            },
+            {
+              "id": "3d0ddfb3-5680-4186-8517-19075d224caf",
+              "name": "sessionId",
+              "value": "={{ $json.ts }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -300,
+        0
+      ],
+      "id": "6b922ef3-7eca-4917-a8e2-79ce40285121",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "query": "={{ $fromAI('placeholder_name') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 2.3,
+      "position": [
+        620,
+        240
+      ],
+      "id": "5e3ac2cb-62ad-4261-ba44-42ec5397adbf",
+      "name": "Slack1",
+      "webhookId": "1d48b489-44d4-44ce-8018-0c438d00211d",
+      "credentials": {
+        "slackApi": {
+          "id": "uWwqOgV5qLjTeVF4",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Slack": [
+      {
+        "json": {
+          "ok": true,
+          "channel": "C089BCWCE22",
+          "message": {
+            "user": "U06C2M3M3RA",
+            "type": "message",
+            "ts": "1744275181.471229",
+            "bot_id": "B06BKMB379V",
+            "app_id": "A06C07TP19Q",
+            "text": "hi\n_Automated with this <https://n8n.cupix.com/workflow/8hEqvmqZQPc76iBd?utm_source=n8n-internal&amp;utm_medium=powered_by&amp;utm_campaign=n8n-nodes-base.slack_6f07c7babf4acacae3792a3c3a4c2c167bc672882332911f4c6c0e271904e0c5|n8n workflow>_",
+            "team": "T0A84RHMM",
+            "bot_profile": {
+              "id": "B06BKMB379V",
+              "app_id": "A06C07TP19Q",
+              "user_id": "U06C2M3M3RA",
+              "name": "Notification-Bot",
+              "icons": {
+                "image_36": "https://avatars.slack-edge.com/2023-12-30/6405343185701_80adb714de41d0f0ff0d_36.png",
+                "image_48": "https://avatars.slack-edge.com/2023-12-30/6405343185701_80adb714de41d0f0ff0d_48.png",
+                "image_72": "https://avatars.slack-edge.com/2023-12-30/6405343185701_80adb714de41d0f0ff0d_72.png"
+              },
+              "deleted": false,
+              "updated": 1703998125,
+              "team_id": "T0A84RHMM"
+            },
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "KdFu",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "hi\n"
+                      },
+                      {
+                        "type": "text",
+                        "text": "Automated with this ",
+                        "style": {
+                          "italic": true
+                        }
+                      },
+                      {
+                        "type": "link",
+                        "url": "https://n8n.cupix.com/workflow/8hEqvmqZQPc76iBd?utm_source=n8n-internal&amp;utm_medium=powered_by&amp;utm_campaign=n8n-nodes-base.slack_6f07c7babf4acacae3792a3c3a4c2c167bc672882332911f4c6c0e271904e0c5",
+                        "text": "n8n workflow",
+                        "style": {
+                          "italic": true
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "message_timestamp": "1744275181.471229"
+        }
+      }
+    ],
+    "Slack Trigger": [
+      {
+        "json": {
+          "user": "U04QB2DJWCT",
+          "type": "app_mention",
+          "ts": "1744276191.803769",
+          "client_msg_id": "bb7cb352-2ec1-40e3-af1c-2ebad8606a9c",
+          "text": "<@U06C2M3M3RA> hi",
+          "team": "T0A84RHMM",
+          "blocks": [
+            {
+              "type": "rich_text",
+              "block_id": "Etf6X",
+              "elements": [
+                {
+                  "type": "rich_text_section",
+                  "elements": [
+                    {
+                      "type": "user",
+                      "user_id": "U06C2M3M3RA"
+                    },
+                    {
+                      "type": "text",
+                      "text": " hi"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "channel": "C089BCWCE22",
+          "event_ts": "1744276191.803769"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-04-10T09:48:25.000Z",
+  "versionId": "8dfb861a-4cd9-4274-934c-a52a465c5a3f"
+}
