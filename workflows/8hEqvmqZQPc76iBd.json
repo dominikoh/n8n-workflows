@@ -77,6 +77,17 @@
           }
         ]
       ]
+    },
+    "Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-10T08:53:00.930Z",
@@ -197,8 +208,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
       "typeVersion": 1,
       "position": [
-        460,
-        240
+        480,
+        380
       ],
       "id": "a7349a35-85b9-482f-bb3e-0543dac79a1a",
       "name": "Wikipedia"
@@ -241,8 +252,8 @@
       "type": "n8n-nodes-base.slackTool",
       "typeVersion": 2.3,
       "position": [
-        620,
-        240
+        380,
+        380
       ],
       "id": "5e3ac2cb-62ad-4261-ba44-42ec5397adbf",
       "name": "Slack1",
@@ -251,6 +262,26 @@
         "slackApi": {
           "id": "uWwqOgV5qLjTeVF4",
           "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        600,
+        380
+      ],
+      "id": "a9728079-a3fd-484c-be5e-84d0dbaddbfe",
+      "name": "Jira Software",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "xaPMQws5TL30rVV5",
+          "name": "Jira SW Cloud account"
         }
       }
     }
@@ -362,6 +393,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-10T09:48:25.000Z",
-  "versionId": "8dfb861a-4cd9-4274-934c-a52a465c5a3f"
+  "updatedAt": "2025-04-13T10:14:27.000Z",
+  "versionId": "ae0fa469-9856-4687-84e9-b151bd337ba6"
 }
