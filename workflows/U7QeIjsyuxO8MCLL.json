@@ -478,7 +478,8 @@
           "id": "xaPMQws5TL30rVV5",
           "name": "Jira SW Cloud account"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -514,7 +515,8 @@
           "id": "AxZYhyqhXtp6ocy1",
           "name": "Azure Devops"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -744,6 +746,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-21T07:28:23.000Z",
-  "versionId": "4bfc6d5f-b6a9-498e-aab9-7949a1ddb4c5"
+  "updatedAt": "2025-05-26T06:27:39.000Z",
+  "versionId": "2e15c77f-098d-4635-90ca-86a992782b1f"
 }
