@@ -1,28 +1,165 @@
 {
   "active": false,
-  "connections": {},
+  "connections": {
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2025-07-21T04:48:32.433Z",
   "id": "z5PUNHbzEePYNPlp",
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "My workflow",
+  "name": "ben test",
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "1ef29439-8042-4ead-b321-708f9b8ea627",
+        "trigger": [
+          "message"
+        ],
+        "channelId": {
+          "__rl": true,
+          "value": "C097W6VR0KA",
+          "mode": "id"
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
       "position": [
         0,
         0
       ],
-      "id": "a6c77d46-850b-4a20-a44b-0c0999142024",
-      "name": "Webhook",
-      "webhookId": "1ef29439-8042-4ead-b321-708f9b8ea627"
+      "id": "37c746ee-c298-4f7a-b853-994edd960ab0",
+      "name": "Slack Trigger",
+      "webhookId": "bdaaf13c-55bc-4ee8-93dc-ac2db3dd3155",
+      "credentials": {
+        "slackApi": {
+          "id": "pWEME4g2Kp5je76e",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C096YK3E6CF",
+          "mode": "id"
+        },
+        "text": "test",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "2017f33c-01dc-48c0-ba17-ef0219d21830",
+      "name": "Slack",
+      "webhookId": "1992cd31-b629-4145-b90f-2794f1974a5b",
+      "credentials": {
+        "slackApi": {
+          "id": "pWEME4g2Kp5je76e",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1pf9FY4BDXEdsuLhgWjmbaVPUQVnUE8o0QS2Zt73jlP0/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1pf9FY4BDXEdsuLhgWjmbaVPUQVnUE8o0QS2Zt73jlP0/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "text": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "text"
+          ],
+          "schema": [
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        260
+      ],
+      "id": "b5d9ee85-1189-4f10-9976-5c7c6c6b50e9",
+      "name": "Google Sheets",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZrWikPEoTCGbxf57",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\nconst message = $input.item.json.blocks[0].elements[0].elements[0].text\n\nconst envMatch = message.match(/CupixWorks API (\\w+)\\s*에/);\nconst env = envMatch ? envMatch[1] : \"unknown\";\n\nconst versionBlocks = [];\nconst productRegex = /(\\d+)\\.\\s*(.+?)\\s*- stable: ([\\d.]+)\\s*- beta: ([\\d.]+)/gs;\n\nlet match;\nwhile ((match = productRegex.exec(message)) !== null) {\n  const index = match[1];\n  const product = match[2].trim();\n  const stable = match[3];\n  const beta = match[4];\n\n  versionBlocks.push({\n    env,\n    product,\n    version: `stable: ${stable}\\nbeta: ${beta}`\n  });\n}\n\nreturn versionBlocks;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "506e3a4f-2025-4e3c-919a-23ee82f23d71",
+      "name": "Code"
     }
   ],
   "pinData": {},
@@ -31,7 +168,7 @@
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-07-21T04:48:32.433Z",
-  "versionId": "8cb5c815-d4cb-4a7a-aa5a-d0dcff7e6863"
+  "triggerCount": 1,
+  "updatedAt": "2025-07-25T02:07:47.000Z",
+  "versionId": "588f2db9-e450-4bb2-b669-4d7f003d0379"
 }
