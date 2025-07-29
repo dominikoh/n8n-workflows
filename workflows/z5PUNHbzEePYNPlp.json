@@ -95,7 +95,7 @@
     },
     {
       "parameters": {
-        "operation": "appendOrUpdate",
+        "operation": "update",
         "documentId": {
           "__rl": true,
           "value": "https://docs.google.com/spreadsheets/d/1pf9FY4BDXEdsuLhgWjmbaVPUQVnUE8o0QS2Zt73jlP0/edit?gid=0#gid=0",
@@ -109,21 +109,62 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "text": "={{ $json.text }}"
+            "stable_index": "={{ $json.stable_index }}"
           },
           "matchingColumns": [
-            "text"
+            "stable_index"
           ],
           "schema": [
             {
-              "id": "text",
-              "displayName": "text",
+              "id": "stable_index",
+              "displayName": "stable_index",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true,
               "removed": false
+            },
+            {
+              "id": "beta_index",
+              "displayName": "beta_index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "env",
+              "displayName": "env",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Bim-Validator",
+              "displayName": "Bim-Validator",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -149,14 +190,13 @@
     },
     {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\nconst message = $input.item.json.blocks[0].elements[0].elements[0].text\n\nconst envMatch = message.match(/CupixWorks API (\\w+)\\s*에/);\nconst env = envMatch ? envMatch[1] : \"unknown\";\n\nconst versionBlocks = [];\nconst productRegex = /(\\d+)\\.\\s*(.+?)\\s*- stable: ([\\d.]+)\\s*- beta: ([\\d.]+)/gs;\n\nlet match;\nwhile ((match = productRegex.exec(message)) !== null) {\n  const index = match[1];\n  const product = match[2].trim();\n  const stable = match[3];\n  const beta = match[4];\n\n  versionBlocks.push({\n    env,\n    product,\n    version: `stable: ${stable}\\nbeta: ${beta}`\n  });\n}\n\nreturn versionBlocks;"
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\nconst message = $input.item.json.blocks[0].elements[0].elements[0].text\n\nconst envMatch = message.match(/CupixWorks API (\\w+)\\s*에/);\nconst env = envMatch ? envMatch[1] : \"unknown\";\n\nconst versionBlocks = [];\nconst productRegex = /(\\d+)\\.\\s*(.+?)\\s*- stable: ([\\d.]+)\\s*- beta: ([\\d.]+)/gs;\n\nlet match;\nwhile ((match = productRegex.exec(message)) !== null) {\n  const index = match[1];\n  const product = match[2].trim();\n  const stable = match[3];\n  const beta = match[4];\n\n  let stable_index;\n  let beta_index=0;\n  switch (product) {\n    case \"BIM-Validator\":\n      stable_index = 1;\n      beta_index = stable_index + 1;\n  }\n\n  versionBlocks.push({\n    env,\n    product,\n    stable_version: `${stable}`,\n    beta_version: `${beta}`,\n    stable_index: `${stable_index}`,\n    beta_index: `${beta_index}`\n  });\n\n\n  \n    \n}\n\nreturn versionBlocks;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         220,
-        0
+        260
       ],
       "id": "506e3a4f-2025-4e3c-919a-23ee82f23d71",
       "name": "Code"
@@ -169,6 +209,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-07-25T02:07:47.000Z",
-  "versionId": "588f2db9-e450-4bb2-b669-4d7f003d0379"
+  "updatedAt": "2025-07-29T07:41:19.000Z",
+  "versionId": "6ebfcb9e-d616-431e-9ba8-14d5a8e88c42"
 }
