@@ -3,6 +3,7 @@
   "connections": {},
   "createdAt": "2025-10-22T02:02:36.895Z",
   "id": "aMhYmcCDEJ4Lw8yL",
+  "isArchived": false,
   "meta": null,
   "name": "compass-mcp",
   "nodes": [],
@@ -10,6 +11,15 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2025-10-22T02:02:36.899Z",
+      "updatedAt": "2025-10-22T02:02:36.899Z",
+      "role": "workflow:owner",
+      "workflowId": "aMhYmcCDEJ4Lw8yL",
+      "projectId": "dhnH0RNEhNIDNQeT"
+    }
+  ],
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
