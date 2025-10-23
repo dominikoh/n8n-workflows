@@ -92,6 +92,7 @@
   },
   "createdAt": "2025-04-10T08:53:00.930Z",
   "id": "8hEqvmqZQPc76iBd",
+  "isArchived": false,
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -390,6 +391,15 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2025-04-10T08:53:00.934Z",
+      "updatedAt": "2025-04-10T08:53:00.934Z",
+      "role": "workflow:owner",
+      "workflowId": "8hEqvmqZQPc76iBd",
+      "projectId": "dhnH0RNEhNIDNQeT"
+    }
+  ],
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
