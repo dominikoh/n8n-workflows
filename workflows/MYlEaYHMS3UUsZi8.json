@@ -229,6 +229,7 @@
   },
   "createdAt": "2025-01-21T04:31:13.654Z",
   "id": "MYlEaYHMS3UUsZi8",
+  "isArchived": false,
   "meta": {
     "templateId": "2652"
   },
@@ -692,6 +693,15 @@
   ],
   "pinData": {},
   "settings": {},
+  "shared": [
+    {
+      "createdAt": "2025-01-21T04:31:13.659Z",
+      "updatedAt": "2025-01-21T04:31:13.659Z",
+      "role": "workflow:owner",
+      "workflowId": "MYlEaYHMS3UUsZi8",
+      "projectId": "dhnH0RNEhNIDNQeT"
+    }
+  ],
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
