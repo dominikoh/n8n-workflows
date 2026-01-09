@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Slack Trigger": {
       "main": [
@@ -92,7 +92,7 @@
   },
   "createdAt": "2025-04-10T08:53:00.930Z",
   "id": "8hEqvmqZQPc76iBd",
-  "isArchived": false,
+  "isArchived": true,
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -403,6 +403,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-13T10:14:27.000Z",
-  "versionId": "ae0fa469-9856-4687-84e9-b151bd337ba6"
+  "updatedAt": "2026-01-09T08:08:00.000Z",
+  "versionId": "497b4685-6875-4431-ad4d-09fe4dfcc8c5"
 }
